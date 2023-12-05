@@ -2,7 +2,6 @@
 
 * Студент: [Kseniia Lazarov](https://up.htmlacademy.ru/ecmascript/22/user/2384991).
 * Наставник: [Yulia Volkova](https://htmlacademy.ru/profile/id423707).
-
 ---
 
 _Не удаляйте и не изменяйте папки и файлы:_
