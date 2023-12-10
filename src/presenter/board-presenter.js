@@ -7,6 +7,7 @@ import { render } from '../render.js';
 class BoardPresenter {
   sortComponent = new SortView();
   editListComponent = new EditListView();
+  formEditComponent = new FormEditView();
 
   constructor({ container }) {
     this.container = container;
@@ -15,7 +16,7 @@ class BoardPresenter {
   init() {
     render(this.sortComponent, this.container);
     render(this.editListComponent, this.container);
-    render(new FormEditView(), this.editListComponent.getElement());
+    render(this.formEditComponent, this.editListComponent.getElement());
 
     for (let i = 0; i < 3; i++) {
       render(new PointView(), this.editListComponent.getElement());
