@@ -134,7 +134,7 @@ const createFormEditView = () => `<form class="event event--edit" action="#" met
 </section>
 </form>`;
 
-class FormEditView {
+export default class FormEditView {
   getTemplate() {
     return createFormEditView();
   }
@@ -151,5 +151,3 @@ class FormEditView {
     this.element = null;
   }
 }
-
-export { FormEditView };

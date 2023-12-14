@@ -38,7 +38,7 @@ const createPointTemplate = () => `<li class="trip-events__item">
   </div>
 </li>`;
 
-class PointView {
+export default class PointView {
   getTemplate() {
     return createPointTemplate();
   }
@@ -55,5 +55,3 @@ class PointView {
     this.element = null;
   }
 }
-
-export { PointView };
