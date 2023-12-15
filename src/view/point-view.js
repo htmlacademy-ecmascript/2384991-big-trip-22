@@ -1,22 +1,33 @@
 import { createElement } from '../render.js';
+import { humanizePointsDate, humanizeShortDate } from '../util.js';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
 
-const createPointTemplate = () => `<li class="trip-events__item">
+dayjs.extend(duration);
+
+
+const createPointTemplate = (point) => {
+  const { dateFrom, dateTo, type, destination, basePrice } = point;
+  const durationOfStay = dayjs.duration(dayjs(dateTo).diff(dayjs(dateFrom)));
+  const durationOfStayFormat = `${durationOfStay.days() > 0 ? `${durationOfStay.days()}D ` : ''}${durationOfStay.hours() > 0 ? `${durationOfStay.hours()}H ` : ''}${durationOfStay.minutes()}M`;
+
+  return (`<li class="trip-events__item">
   <div class="event">
-    <time class="event__date" datetime="2019-03-18">MAR 18</time>
+    <time class="event__date" datetime="${humanizeShortDate(dateFrom)}">${humanizeShortDate(dateFrom)}</time>
     <div class="event__type">
-      <img class="event__type-icon" width="42" height="42" src="img/icons/taxi.png" alt="Event type icon">
+      <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event ${type} icon">
     </div>
-    <h3 class="event__title">Taxi Amsterdam</h3>
+    <h3 class="event__title">${type} ${destination}</h3>
     <div class="event__schedule">
       <p class="event__time">
-        <time class="event__start-time" datetime="2019-03-18T10:30">10:30</time>
+        <time class="event__start-time" datetime="${humanizePointsDate(dateFrom)}">${humanizePointsDate(dateFrom)}</time>
         &mdash;
-        <time class="event__end-time" datetime="2019-03-18T11:00">11:00</time>
+        <time class="event__end-time" datetime="${humanizePointsDate(dateTo)}">${humanizePointsDate(dateTo)}</time>
       </p>
-      <p class="event__duration">30M</p>
+      <p class="event__duration">${durationOfStayFormat}</p>
     </div>
     <p class="event__price">
-      &euro;&nbsp;<span class="event__price-value">20</span>
+      &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
     </p>
     <h4 class="visually-hidden">Offers:</h4>
     <ul class="event__selected-offers">
@@ -36,11 +47,16 @@ const createPointTemplate = () => `<li class="trip-events__item">
       <span class="visually-hidden">Open event</span>
     </button>
   </div>
-</li>`;
+</li>`);
+};
 
 export default class PointView {
+  constructor({point}) {
+    this.point = point;
+  }
+
   getTemplate() {
-    return createPointTemplate();
+    return createPointTemplate(this.point);
   }
 
   getElement() {

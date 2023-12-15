@@ -1,6 +1,11 @@
 // константы
-const MAX_NUMBER_VALUE = 200;
+const MAX_PRICE_VALUE = 200;
+const MAX_NUMBER = 100;
 const POINT_COUNT = 3;
+
+const DATE_FORMAT = 'DD/MM/YY HH:mm';
+const SHORT_DATE_FORMAT = 'MMM DD';
+
 
 const CITIES = ['Paris', 'Amsterdam', 'Berlin', 'London', 'Chamonix', 'Geneva', 'Prague'];
 
@@ -14,4 +19,12 @@ const CITYDESCRIPTIONS = [
   'is a city of green spaces, from serene parks to lively recreation areas.'
 ];
 
-export { CITIES, CITYDESCRIPTIONS, MAX_NUMBER_VALUE, POINT_COUNT };
+export {
+  CITIES,
+  CITYDESCRIPTIONS,
+  MAX_PRICE_VALUE,
+  MAX_NUMBER,
+  POINT_COUNT,
+  DATE_FORMAT,
+  SHORT_DATE_FORMAT
+};

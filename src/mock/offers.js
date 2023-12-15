@@ -10,6 +10,11 @@ const mockOffers = [
       id: '2',
       title: 'Upgrade to a maybach',
       price: 200
+    },
+    {
+      id: '3',
+      title: 'Drive slowly',
+      price: 70,
     }],
   },
   {
@@ -77,6 +82,15 @@ const mockOffers = [
       id: '2',
       title: 'Upgrade to a maybach',
       price: 500
+    },
+    {
+      id: '3',
+      title: 'With automatic transmission',
+      price: 40,
+    }, {
+      id: '4',
+      title: 'With air conditioning',
+      price: 30,
     }],
   },
   {
