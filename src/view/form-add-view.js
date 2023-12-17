@@ -164,7 +164,7 @@ const createFormAddTemplate = () => `
     </section>
   </form>`;
 
-class FormAddView {
+export default class FormAddView {
   getTemplate() {
     return createFormAddTemplate();
   }
@@ -182,4 +182,3 @@ class FormAddView {
   }
 }
 
-export { FormAddView };

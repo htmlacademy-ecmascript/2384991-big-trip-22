@@ -12,7 +12,7 @@ const createInfoViewTemplate = () => `<section class="trip-main__trip-info  trip
 </p>
 </section>`;
 
-class InfoView {
+export default class InfoView {
   getTemplate() {
     return createInfoViewTemplate();
   }
@@ -30,4 +30,3 @@ class InfoView {
   }
 }
 
-export { InfoView };

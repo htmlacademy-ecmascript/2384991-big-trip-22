@@ -2,7 +2,7 @@ import { createElement } from '../render.js';
 
 const createEditListTemplate = () => '<ul class="trip-events__list"></ul>';
 
-class EditListView {
+export default class EditListView {
   getTemplate() {
     return createEditListTemplate();
   }
@@ -20,4 +20,3 @@ class EditListView {
   }
 }
 
-export { EditListView };
