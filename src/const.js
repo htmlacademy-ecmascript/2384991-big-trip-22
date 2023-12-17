@@ -1,11 +1,11 @@
 // константы
 const MAX_PRICE_VALUE = 200;
 const MAX_NUMBER = 100;
-const POINT_COUNT = 3;
+const POINT_COUNT = 4;
 
+const TIME_FORMAT = 'HH:mm';
 const DATE_FORMAT = 'DD/MM/YY HH:mm';
 const SHORT_DATE_FORMAT = 'MMM DD';
-
 
 const CITIES = ['Paris', 'Amsterdam', 'Berlin', 'London', 'Chamonix', 'Geneva', 'Prague'];
 
@@ -25,6 +25,7 @@ export {
   MAX_PRICE_VALUE,
   MAX_NUMBER,
   POINT_COUNT,
+  TIME_FORMAT,
   DATE_FORMAT,
   SHORT_DATE_FORMAT
 };

@@ -14,7 +14,7 @@ const mockOffers = [
     {
       id: '3',
       title: 'Drive slowly',
-      price: 70,
+      price: 70
     }],
   },
   {
@@ -86,11 +86,11 @@ const mockOffers = [
     {
       id: '3',
       title: 'With automatic transmission',
-      price: 40,
+      price: 40
     }, {
       id: '4',
       title: 'With air conditioning',
-      price: 30,
+      price: 30
     }],
   },
   {

@@ -24,7 +24,16 @@ export default class PointsModel {
     return this.getOffers().find((offers) => offers.type === type);
   }
 
+  getOfferById(type, offerId) {
+    const availablesOffers = this.getOfferByType(type);
+    const filteredOffers = availablesOffers.offers.filter((offers) => offerId.find((id) => offers.id === id));
+
+    return filteredOffers;
+  }
+
   getDestinationById(id) {
     return this.getDestinations().find((destination) => destination.id === id);
   }
+
 }
+
