@@ -11,7 +11,7 @@ const createTypeTemplate = () => mockOffers.map((offer) => `
 </div>
     `).join('');
 
-const createOffersTemplate = (offers, checkedOffers) => offers.map((offer) => {
+const createOffersTemplate = (offersByType, checkedOffers) => offersByType.map((offer) => {
   const checkedOfferIds = checkedOffers.map((checkedOffer) => checkedOffer.id);
   const isChecked = checkedOfferIds.includes(offer.id);
   return `
@@ -26,11 +26,11 @@ const createOffersTemplate = (offers, checkedOffers) => offers.map((offer) => {
     `;
 }).join('');
 
-const createFormEditView = (point, destination, offers, checkedOffers) => {
+const createFormEditView = (point, destination, offersByType, checkedOffers) => {
   const { dateFrom, dateTo, type, basePrice } = point;
   const { name, description } = destination;
-  const doOffersExist = offers && offers.offers && offers.offers.length > 0;
-  const offersTemplate = doOffersExist ? createOffersTemplate(offers.offers, checkedOffers) : '';
+  const doOffersExist = offersByType && offersByType.offers && offersByType.offers.length > 0;
+  const offersTemplate = doOffersExist ? createOffersTemplate(offersByType.offers, checkedOffers) : '';
 
   return (`<form class="event event--edit" action="#" method="post">
 <header class="event__header">
