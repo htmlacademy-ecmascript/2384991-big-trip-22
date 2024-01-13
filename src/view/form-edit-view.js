@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import { humanizePointsDate, capitalizeFirstLetter } from '../util.js';
 import { mockOffers } from '../mock/offers.js';
 import { CITIES } from '../const.js';
@@ -92,27 +92,21 @@ ${isOffersExist ? `
 </form>`);
 };
 
-export default class FormEditView {
+export default class FormEditView extends AbstractView {
+  #point = null;
+  #destination = null;
+  #offers = null;
+  #checkedOffers = null;
+
   constructor({point, destination, offers, checkedOffers}) {
-    this.point = point;
-    this.destination = destination;
-    this.offers = offers;
-    this.checkedOffers = checkedOffers;
+    super();
+    this.#point = point;
+    this.#destination = destination;
+    this.#offers = offers;
+    this.#checkedOffers = checkedOffers;
   }
 
-  getTemplate() {
-    return createFormEditView(this.point, this.destination, this.offers, this.checkedOffers);
-  }
-
-  getElement() {
-    if(!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
+  get template() {
+    return createFormEditView(this.#point, this.#destination, this.#offers, this.#checkedOffers);
   }
 }
