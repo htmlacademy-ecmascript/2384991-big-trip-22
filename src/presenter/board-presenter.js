@@ -24,19 +24,31 @@ export default class BoardPresenter {
     render(this.#sortComponent, this.#container);
     render(this.#editListComponent, this.#container);
 
-    render(new FormEditView({
-      point: this.#boardPoints[0],
-      destination: this.#pointsModel.getDestinationById(this.#boardPoints[0].destination),
-      checkedOffers: [...this.#pointsModel.getOfferById(this.#boardPoints[0].type, this.#boardPoints[0].offers)],
-      offers: this.#pointsModel.getOfferByType(this.#boardPoints[0].type),
-    }), this.#editListComponent.element);
+    this.#renderForm(this.#boardPoints[0]);
 
-    for (let i = 1; i < this.#boardPoints.length; i++) {
-      render(new PointView({
-        point: this.#boardPoints[i],
-        destination: this.#pointsModel.getDestinationById(this.#boardPoints[i].destination),
-        offers: [...this.#pointsModel.getOfferById(this.#boardPoints[i].type, this.#boardPoints[i].offers)],
-      }), this.#editListComponent.element);
+    for (let i = 0; i < this.#boardPoints.length; i++) {
+      this.#renderPoint(this.#boardPoints[i]);
     }
+  }
+
+  #renderForm(point) {
+    const formComponent = new FormEditView({
+      point: point,
+      destination: this.#pointsModel.getDestinationById(point.destination),
+      checkedOffers: [...this.#pointsModel.getOfferById(point.type, point.offers)],
+      offers: this.#pointsModel.getOfferByType(point.type),
+    });
+
+    render(formComponent, this.#editListComponent.element);
+  }
+
+  #renderPoint(point) {
+    const pointComponent = new PointView({
+      point: point,
+      destination: this.#pointsModel.getDestinationById(point.destination),
+      offers: [...this.#pointsModel.getOfferById(point.type, point.offers)],
+    });
+
+    render(pointComponent, this.#editListComponent.element);
   }
 }
