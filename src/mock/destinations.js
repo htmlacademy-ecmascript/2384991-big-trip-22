@@ -1,5 +1,5 @@
 import { CITIES, CITY_DESCRIPTIONS, DESTINATION_NUMBER, MAX_NUMBER } from '../const.js';
-import { getRandomArrayElement, getRandomInteger, createIdGenerator } from '../util.js';
+import { getRandomArrayElement, getRandomInteger, createIdGenerator } from '../utils/common.js';
 
 const destinationId = createIdGenerator();
 

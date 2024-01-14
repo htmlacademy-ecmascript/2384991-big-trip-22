@@ -1,5 +1,6 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { humanizePointsDate, capitalizeFirstLetter } from '../util.js';
+import { capitalizeFirstLetter } from '../utils/common.js';
+import { humanizePointsDate } from '../utils/dates.js';
 import { mockOffers } from '../mock/offers.js';
 import { CITIES } from '../const.js';
 
