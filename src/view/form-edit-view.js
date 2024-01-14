@@ -28,7 +28,7 @@ const createOffersTemplate = (offersByType, checkedOffers) => offersByType.map((
 
 const createFormEditView = (point, destination, offersByType, checkedOffers) => {
   const { dateFrom, dateTo, type, basePrice } = point;
-  const { name, description } = destination;
+  const { name, description, pictures } = destination;
   const { offers } = offersByType;
   const isOffersExist = offersByType && offers && offers.length > 0;
   const offersTemplate = isOffersExist ? createOffersTemplate(offersByType.offers, checkedOffers) : '';
@@ -87,6 +87,11 @@ ${isOffersExist ? `
   <section class="event__section  event__section--destination">
     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
     <p class="event__destination-description">${description}</p>
+    <div class="event__photos-container">
+      <div class="event__photos-tape">
+      ${pictures.map(({ description: descriptionPicture, src }) => `<img class="event__photo" src="${src}" alt="${descriptionPicture}">`).join('')}
+      </div>
+    </div>
   </section>
 </section>
 </form>`);
@@ -97,16 +102,26 @@ export default class FormEditView extends AbstractView {
   #destination = null;
   #offers = null;
   #checkedOffers = null;
+  #handleFormSubmit = null;
+  #handleClick = null;
 
-  constructor({point, destination, offers, checkedOffers}) {
+  constructor({point, destination, offers, checkedOffers, onFormSubmit}) {
     super();
     this.#point = point;
     this.#destination = destination;
     this.#offers = offers;
     this.#checkedOffers = checkedOffers;
+    this.#handleFormSubmit = onFormSubmit;
+
+    this.element.querySelector('form')?.addEventListener('submit', this.#formSubmitHandler);
   }
 
   get template() {
     return createFormEditView(this.#point, this.#destination, this.#offers, this.#checkedOffers);
   }
+
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFormSubmit();
+  };
 }

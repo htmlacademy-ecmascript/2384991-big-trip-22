@@ -20,10 +20,13 @@ const humanizeTime = (date) => dayjs(date).format(TIME_FORMAT);
 
 const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
 export { getRandomArrayElement,
   getRandomInteger,
   createIdGenerator,
   humanizeTime,
   humanizePointsDate,
   humanizeShortDate,
-  capitalizeFirstLetter };
+  capitalizeFirstLetter,
+  isEscapeKey };

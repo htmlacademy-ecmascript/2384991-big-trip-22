@@ -26,5 +26,4 @@ const createMockDestination = () => {
 };
 
 const mockDestinations = new Array(DESTINATION_NUMBER).fill(null).map(createMockDestination);
-
 export { mockDestinations };
