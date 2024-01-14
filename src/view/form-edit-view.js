@@ -113,7 +113,7 @@ export default class FormEditView extends AbstractView {
     this.#checkedOffers = checkedOffers;
     this.#handleFormSubmit = onFormSubmit;
 
-    this.element.querySelector('form')?.addEventListener('submit', this.#formSubmitHandler);
+    this.element.querySelector('.event--edit')?.addEventListener('submit', this.#formSubmitHandler);
   }
 
   get template() {
