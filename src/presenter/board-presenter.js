@@ -28,13 +28,13 @@ export default class BoardPresenter {
   }
 
   #renderBoard() {
-    render(this.#sortComponent, this.#container);
-    render(this.#editListComponent, this.#container);
-
     if (this.#boardPoints.length === 0) {
       render(this.#noPointsComponent, this.#container);
       return;
     }
+
+    render(this.#sortComponent, this.#container);
+    render(this.#editListComponent, this.#container);
 
     for (let i = 0; i < this.#boardPoints.length; i++) {
       this.#renderPoint(this.#boardPoints[i]);
@@ -66,6 +66,10 @@ export default class BoardPresenter {
       onFormSubmit: () => {
         replaceFormToPoint();
         document.removeEventListener('keydown', escKeyDownHandler);
+      },
+      onEditClick: () => {
+        replaceFormToPoint();
+        document.addEventListener('keydown', escKeyDownHandler);
       }
     });
 
