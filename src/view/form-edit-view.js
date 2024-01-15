@@ -1,5 +1,6 @@
-import { createElement } from '../render.js';
-import { humanizePointsDate, capitalizeFirstLetter } from '../util.js';
+import AbstractView from '../framework/view/abstract-view.js';
+import { capitalizeFirstLetter } from '../utils/common.js';
+import { humanizePointsDate } from '../utils/dates.js';
 import { mockOffers } from '../mock/offers.js';
 import { CITIES } from '../const.js';
 
@@ -28,12 +29,13 @@ const createOffersTemplate = (offersByType, checkedOffers) => offersByType.map((
 
 const createFormEditView = (point, destination, offersByType, checkedOffers) => {
   const { dateFrom, dateTo, type, basePrice } = point;
-  const { name, description } = destination;
+  const { name, description, pictures } = destination;
   const { offers } = offersByType;
   const isOffersExist = offersByType && offers && offers.length > 0;
   const offersTemplate = isOffersExist ? createOffersTemplate(offersByType.offers, checkedOffers) : '';
 
-  return (`<form class="event event--edit" action="#" method="post">
+  return (`<li class="trip-events__item">
+  <form class="event event--edit" action="#" method="post">
 <header class="event__header">
   <div class="event__type-wrapper">
     <label class="event__type  event__type-btn" for="event-type-toggle-${offers.id}">
@@ -87,32 +89,49 @@ ${isOffersExist ? `
   <section class="event__section  event__section--destination">
     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
     <p class="event__destination-description">${description}</p>
+    <div class="event__photos-container">
+      <div class="event__photos-tape">
+      ${pictures.map(({ description: descriptionPicture, src }) => `<img class="event__photo" src="${src}" alt="${descriptionPicture}">`).join('')}
+      </div>
+    </div>
   </section>
 </section>
-</form>`);
+</form>
+</li>`);
 };
 
-export default class FormEditView {
-  constructor({point, destination, offers, checkedOffers}) {
-    this.point = point;
-    this.destination = destination;
-    this.offers = offers;
-    this.checkedOffers = checkedOffers;
+export default class FormEditView extends AbstractView {
+  #point = null;
+  #destination = null;
+  #offers = null;
+  #checkedOffers = null;
+  #handleFormSubmit = null;
+  #handleEditClick = null;
+
+  constructor({point, destination, offers, checkedOffers, onFormSubmit, onEditClick}) {
+    super();
+    this.#point = point;
+    this.#destination = destination;
+    this.#offers = offers;
+    this.#checkedOffers = checkedOffers;
+    this.#handleFormSubmit = onFormSubmit;
+    this.#handleEditClick = onEditClick;
+
+    this.element.querySelector('.event--edit')?.addEventListener('submit', this.#formSubmitHandler);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
   }
 
-  getTemplate() {
-    return createFormEditView(this.point, this.destination, this.offers, this.checkedOffers);
+  get template() {
+    return createFormEditView(this.#point, this.#destination, this.#offers, this.#checkedOffers);
   }
 
-  getElement() {
-    if(!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFormSubmit();
+  };
 
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
+  #editClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleEditClick();
+  };
 }

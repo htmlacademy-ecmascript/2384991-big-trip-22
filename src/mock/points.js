@@ -1,4 +1,4 @@
-import { getRandomInteger, createIdGenerator, getRandomArrayElement, } from '../util.js';
+import { getRandomInteger, createIdGenerator, getRandomArrayElement, } from '../utils/common.js';
 import { MAX_PRICE_VALUE } from '../const.js';
 
 const pointsId = createIdGenerator();
