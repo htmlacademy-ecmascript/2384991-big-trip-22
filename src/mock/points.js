@@ -7,8 +7,8 @@ const mockPoints = [
   {
     id: pointsId(),
     basePrice: getRandomInteger(MAX_PRICE_VALUE),
-    dateFrom: '2023-12-12T09:00:00.000Z',
-    dateTo: '2023-12-12T09:30:00.000Z',
+    dateFrom: '2024-07-12T09:00:00.000Z',
+    dateTo: '2024-07-12T09:30:00.000Z',
     destination: '1',
     isFavorite: true,
     offers: ['2', '3'],
@@ -17,8 +17,8 @@ const mockPoints = [
   {
     id: pointsId(),
     basePrice: getRandomInteger(MAX_PRICE_VALUE),
-    dateFrom: '2023-12-12T10:00:00.000Z',
-    dateTo: '2023-12-12T10:50:00.000Z',
+    dateFrom: '2024-07-12T10:00:00.000Z',
+    dateTo: '2024-07-12T10:50:00.000Z',
     destination: '2',
     isFavorite: true,
     offers: ['1', '2', '3'],
@@ -27,8 +27,8 @@ const mockPoints = [
   {
     id: pointsId(),
     basePrice: getRandomInteger(MAX_PRICE_VALUE),
-    dateFrom: '2023-12-12T11:00:00.000Z',
-    dateTo: '2023-12-12T12:00:00.000Z',
+    dateFrom: '2024-07-12T11:00:00.000Z',
+    dateTo: '2024-07-12T12:00:00.000Z',
     destination: '3',
     isFavorite: true,
     offers: ['1', '3'],
@@ -37,8 +37,8 @@ const mockPoints = [
   {
     id: pointsId(),
     basePrice: getRandomInteger(MAX_PRICE_VALUE),
-    dateFrom: '2023-12-12T13:00:00.000Z',
-    dateTo: '2023-12-12T15:00:00.000Z',
+    dateFrom: '2024-07-12T13:00:00.000Z',
+    dateTo: '2024-07-12T15:00:00.000Z',
     destination: '4',
     isFavorite: true,
     offers: ['1', '2', '3'],
