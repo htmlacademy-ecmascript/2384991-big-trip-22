@@ -6,25 +6,27 @@ import { CITIES } from '../const.js';
 
 const createCityOptionsTemplate = () => CITIES.map((city) => `<option value="${city}"></option>`).join('');
 const createTypeTemplate = (currentType) => mockPoints.map((point) => {
+  const { type, id } = point;
   const isChecked = point.type === currentType;
   return `
     <div class="event__type-item">
-      <input id="event-type-${point.id}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${point.type}" ${isChecked ? 'checked' : ''}>
-      <label class="event__type-label  event__type-label--${point.type}" for="event-type-${point.id}">${capitalizeFirstLetter(point.type)}</label>
+      <input id="event-type-${id}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${isChecked ? 'checked' : ''}>
+      <label class="event__type-label  event__type-label--${type}" for="event-type-${id}">${capitalizeFirstLetter(type)}</label>
     </div>
   `;
 }).join('');
 
 const createOffersTemplate = (offersByType, checkedOffers) => offersByType.map((offer) => {
+  const { id, title, price } = offer;
   const checkedOfferIds = checkedOffers.map((checkedOffer) => checkedOffer.id);
   const isChecked = checkedOfferIds.includes(offer.id);
   return `
       <div class="event__offer-selector">
-        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.id}" type="checkbox" name="event-offer-${offer.id}" ${isChecked ? 'checked' : ''}>
-        <label class="event__offer-label" for="event-offer-${offer.id}">
-          <span class="event__offer-title">${offer.title}</span>
+        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${id}" type="checkbox" name="event-offer-${id}" ${isChecked ? 'checked' : ''}>
+        <label class="event__offer-label" for="event-offer-${id}">
+          <span class="event__offer-title">${title}</span>
           &plus;&euro;&nbsp;
-          <span class="event__offer-price">${offer.price}</span>
+          <span class="event__offer-price">${price}</span>
         </label>
       </div>
     `;
