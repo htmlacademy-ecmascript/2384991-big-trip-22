@@ -70,7 +70,7 @@ export default class BoardPresenter {
       onEditClick: () => {
         replaceFormToPoint();
         document.addEventListener('keydown', escKeyDownHandler);
-      }
+      },
     });
 
     function replacePointToForm() {
