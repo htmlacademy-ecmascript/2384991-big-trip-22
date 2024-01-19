@@ -1,4 +1,3 @@
-// константы
 const MAX_PRICE_VALUE = 200;
 const MAX_NUMBER = 100;
 const POINT_COUNT = 4;
@@ -20,6 +19,13 @@ const CITY_DESCRIPTIONS = [
   'is a city of green spaces, from serene parks to lively recreation areas.'
 ];
 
+const FilterType = {
+  EVERYTHING: 'everything',
+  FUTURE: 'future',
+  PRESENT: 'present',
+  PAST: 'past',
+};
+
 export {
   CITIES,
   CITY_DESCRIPTIONS,
@@ -29,5 +35,6 @@ export {
   POINT_COUNT,
   TIME_FORMAT,
   DATE_FORMAT,
-  SHORT_DATE_FORMAT
+  SHORT_DATE_FORMAT,
+  FilterType
 };

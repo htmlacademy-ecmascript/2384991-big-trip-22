@@ -34,6 +34,6 @@ export default class PointsModel {
   getDestinationById(id) {
     return this.destinations.find((destination) => destination.id === id);
   }
-
 }
+
 

@@ -5,47 +5,47 @@ const pointsId = createIdGenerator();
 
 const mockPoints = [
   {
-    id: pointsId(),
+    id: pointsId().toString(),
     basePrice: getRandomInteger(MAX_PRICE_VALUE),
-    dateFrom: '2023-12-12T09:00:00.000Z',
-    dateTo: '2023-12-12T09:30:00.000Z',
+    dateFrom: '2024-07-12T09:00:00.000Z',
+    dateTo: '2024-07-12T09:30:00.000Z',
     destination: '1',
     isFavorite: true,
     offers: ['2', '3'],
     type: 'taxi',
   },
   {
-    id: pointsId(),
+    id: pointsId().toString(),
     basePrice: getRandomInteger(MAX_PRICE_VALUE),
-    dateFrom: '2023-12-12T10:00:00.000Z',
-    dateTo: '2023-12-12T10:50:00.000Z',
+    dateFrom: '2024-07-12T10:00:00.000Z',
+    dateTo: '2024-07-12T10:50:00.000Z',
     destination: '2',
     isFavorite: true,
     offers: ['1', '2', '3'],
     type: 'bus',
   },
   {
-    id: pointsId(),
+    id: pointsId().toString(),
     basePrice: getRandomInteger(MAX_PRICE_VALUE),
-    dateFrom: '2023-12-12T11:00:00.000Z',
-    dateTo: '2023-12-12T12:00:00.000Z',
+    dateFrom: '2024-07-12T11:00:00.000Z',
+    dateTo: '2024-07-12T12:00:00.000Z',
     destination: '3',
     isFavorite: true,
     offers: ['1', '3'],
     type: 'train',
   },
   {
-    id: pointsId(),
+    id: pointsId().toString(),
     basePrice: getRandomInteger(MAX_PRICE_VALUE),
-    dateFrom: '2023-12-12T13:00:00.000Z',
-    dateTo: '2023-12-12T15:00:00.000Z',
+    dateFrom: '2024-07-12T13:00:00.000Z',
+    dateTo: '2024-07-12T15:00:00.000Z',
     destination: '4',
     isFavorite: true,
     offers: ['1', '2', '3'],
     type: 'ship',
   },
   {
-    id: pointsId(),
+    id: pointsId().toString(),
     basePrice: getRandomInteger(MAX_PRICE_VALUE),
     dateFrom: '2023-12-12T16:00:00.000Z',
     dateTo: '2023-12-12T16:30:00.000Z',
@@ -55,7 +55,7 @@ const mockPoints = [
     type: 'drive',
   },
   {
-    id: pointsId(),
+    id: pointsId().toString(),
     basePrice: getRandomInteger(MAX_PRICE_VALUE),
     dateFrom: '2023-12-12T17:00:00.000Z',
     dateTo: '2023-12-12T20:00:00.000Z',
@@ -65,7 +65,7 @@ const mockPoints = [
     type: 'flight',
   },
   {
-    id: pointsId(),
+    id: pointsId().toString(),
     basePrice: getRandomInteger(MAX_PRICE_VALUE),
     dateFrom: '2023-12-12T21:00:00.000Z',
     dateTo: '2023-12-12T21:30:00.000Z',
@@ -75,7 +75,7 @@ const mockPoints = [
     type: 'check-in',
   },
   {
-    id: pointsId(),
+    id: pointsId().toString(),
     basePrice: getRandomInteger(MAX_PRICE_VALUE),
     dateFrom: '2023-12-12T22:00:00.000Z',
     dateTo: '2023-12-12T23:30:00.000Z',
@@ -85,7 +85,7 @@ const mockPoints = [
     type: 'sightseeing',
   },
   {
-    id: pointsId(),
+    id: pointsId().toString(),
     basePrice: getRandomInteger(MAX_PRICE_VALUE),
     dateFrom: '2023-12-13T19:00:00.000Z',
     dateTo: '2023-12-13T21:00:00.000Z',
@@ -97,5 +97,4 @@ const mockPoints = [
 ];
 
 const getRandomMockPoints = () => getRandomArrayElement(mockPoints);
-
-export { getRandomMockPoints };
+export { getRandomMockPoints, mockPoints };
