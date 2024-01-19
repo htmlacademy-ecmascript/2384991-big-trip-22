@@ -1,9 +1,9 @@
-import EditListView from '../view/event-list-view.js';
+import EditListView from '../view/edit-list-view.js';
 import FormEditView from '../view/form-edit-view.js';
 import PointView from '../view/point-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointView from '../view/no-point-view.js';
-import { render, replace } from '../framework/render.js';
+import { render, replace, RenderPosition } from '../framework/render.js';
 import { isEscapeKey } from '../utils/common.js';
 
 export default class BoardPresenter {
@@ -27,18 +27,12 @@ export default class BoardPresenter {
     this.#renderBoard();
   }
 
-  #renderBoard() {
-    if (this.#boardPoints.length === 0) {
-      render(this.#noPointsComponent, this.#container);
-      return;
-    }
+  #renderSort() {
+    render(this.#sortComponent, this.#container, RenderPosition.AFTERBEGIN);
+  }
 
-    render(this.#sortComponent, this.#container);
+  #renderEditList() {
     render(this.#editListComponent, this.#container);
-
-    for (let i = 0; i < this.#boardPoints.length; i++) {
-      this.#renderPoint(this.#boardPoints[i]);
-    }
   }
 
   #renderPoint(point) {
@@ -82,5 +76,26 @@ export default class BoardPresenter {
     }
 
     render(pointComponent, this.#editListComponent.element);
+  }
+
+  #renderPoints() {
+    this.#boardPoints.forEach((point) => {
+      this.#renderPoint(point);
+    });
+  }
+
+  #renderNoPoints() {
+    render(this.#noPointsComponent, this.#container);
+  }
+
+  #renderBoard() {
+    if (this.#boardPoints.length === 0) {
+      this.#renderNoPoints();
+      return;
+    }
+
+    this.#renderSort();
+    this.#renderEditList();
+    this.#renderPoints();
   }
 }
