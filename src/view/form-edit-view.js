@@ -33,7 +33,7 @@ const createOffersTemplate = (offersByType, checkedOffers) => offersByType.map((
 }).join('');
 
 const createFormEditView = (point, destination, offersByType, checkedOffers) => {
-  const { dateFrom, dateTo, type, id } = point;
+  const { dateFrom, dateTo, type, id, basePrice } = point;
   const { name, description, pictures } = destination;
   const { offers } = offersByType;
   const isOffersExist = offersByType && offers && offers.length > 0;
@@ -76,7 +76,7 @@ const createFormEditView = (point, destination, offersByType, checkedOffers) => 
       <span class="visually-hidden">Price</span>
       &euro;
     </label>
-    <input class="event__input  event__input--price" id="event-price-${id}" type="text" name="event-price" value="${id}">
+    <input class="event__input  event__input--price" id="event-price-${id}" type="text" name="event-price" value="${basePrice}">
   </div>
   <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
   <button class="event__reset-btn" type="reset">Delete</button>
@@ -132,7 +132,7 @@ export default class FormEditView extends AbstractView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#handleFormSubmit();
+    this.#handleFormSubmit(this.#point);
   };
 
   #editClickHandler = (evt) => {
