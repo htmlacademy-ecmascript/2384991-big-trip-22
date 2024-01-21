@@ -26,6 +26,11 @@ const FilterType = {
   PAST: 'past',
 };
 
+const Mode = {
+  DEFAULT: 'DEFAULT',
+  EDITING: 'EDITING',
+};
+
 export {
   CITIES,
   CITY_DESCRIPTIONS,
@@ -36,5 +41,6 @@ export {
   TIME_FORMAT,
   DATE_FORMAT,
   SHORT_DATE_FORMAT,
-  FilterType
+  FilterType,
+  Mode,
 };
