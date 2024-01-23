@@ -15,6 +15,7 @@ const SHORT_DATE_FORMAT = 'MMM DD';
 const CITIES = ['Paris', 'Amsterdam', 'Berlin', 'London', 'Chamonix', 'Geneva', 'Prague'];
 const TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 const OFFERS = ['1', '2', '3'];
+const SORTS = ['Day', 'Event', 'Time', 'Price', 'Offers'];
 
 const CITY_DESCRIPTIONS = [
   'is a city that never sleeps, vibrant with round-the-clock activity.',
@@ -48,6 +49,7 @@ export {
   CITIES,
   TYPES,
   OFFERS,
+  SORTS,
   CITY_DESCRIPTIONS,
   MAX_PRICE_VALUE,
   MAX_NUMBER,
