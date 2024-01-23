@@ -1,5 +1,10 @@
 const MAX_PRICE_VALUE = 200;
 const MAX_NUMBER = 100;
+const DAYS_PER_YEAR = 365;
+const HOURS_PER_DAY = 24;
+const MINUTS_PER_HOUR = 60;
+const SECONDS_PER_MINUT = 60;
+const MILISECONDS_PER_SECOND = 1000;
 const POINT_COUNT = 4;
 const DESTINATION_NUMBER = 7;
 
@@ -8,6 +13,8 @@ const DATE_FORMAT = 'DD/MM/YY HH:mm';
 const SHORT_DATE_FORMAT = 'MMM DD';
 
 const CITIES = ['Paris', 'Amsterdam', 'Berlin', 'London', 'Chamonix', 'Geneva', 'Prague'];
+const TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
+const OFFERS = ['1', '2', '3'];
 
 const CITY_DESCRIPTIONS = [
   'is a city that never sleeps, vibrant with round-the-clock activity.',
@@ -26,6 +33,12 @@ const FilterType = {
   PAST: 'past',
 };
 
+const SortType = {
+  DAY: 'day',
+  TIME: 'time',
+  PRICE: 'price',
+};
+
 const Mode = {
   DEFAULT: 'DEFAULT',
   EDITING: 'EDITING',
@@ -33,6 +46,8 @@ const Mode = {
 
 export {
   CITIES,
+  TYPES,
+  OFFERS,
   CITY_DESCRIPTIONS,
   MAX_PRICE_VALUE,
   MAX_NUMBER,
@@ -42,5 +57,11 @@ export {
   DATE_FORMAT,
   SHORT_DATE_FORMAT,
   FilterType,
+  SortType,
   Mode,
+  DAYS_PER_YEAR,
+  HOURS_PER_DAY,
+  MINUTS_PER_HOUR,
+  SECONDS_PER_MINUT,
+  MILISECONDS_PER_SECOND
 };

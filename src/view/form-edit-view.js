@@ -1,13 +1,12 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import { capitalizeFirstLetter } from '../utils/common.js';
-import { humanizePointsDate } from '../utils/dates.js';
-import { mockPoints } from '../mock/points.js';
-import { CITIES } from '../const.js';
+import { humanizePointsDate } from '../utils/points.js';
+import { CITIES, TYPES } from '../const.js';
 
 const createCityOptionsTemplate = () => CITIES.map((city) => `<option value="${city}"></option>`).join('');
-const createTypeTemplate = (currentType) => mockPoints.map((point) => {
-  const { type, id } = point;
-  const isChecked = point.type === currentType;
+
+const createTypeTemplate = (currentType) => TYPES.map((type, id) => {
+  const isChecked = type === currentType;
   return `
     <div class="event__type-item">
       <input id="event-type-${id}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${isChecked ? 'checked' : ''}>

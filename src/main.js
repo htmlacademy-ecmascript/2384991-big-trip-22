@@ -17,5 +17,3 @@ const filters = generateFilter(pointsModel.points);
 render(new InfoView(), tripMain, RenderPosition.AFTERBEGIN);
 render(new FilterView({filters}), tripFilters);
 boardPresenter.init();
-
-
