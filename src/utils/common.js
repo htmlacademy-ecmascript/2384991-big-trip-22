@@ -2,6 +2,8 @@ const getRandomArrayElement = (items) => items[Math.floor(Math.random() * items.
 
 const getRandomInteger = (max) => Math.floor(Math.random() * max);
 
+const getRandomBoolean = () => Math.random() >= 0.5;
+
 const createIdGenerator = () => {
   let lastGeneratedId = 0;
 
@@ -17,9 +19,9 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const updateItem = (items, update) => items.map((item) => item.id === update.id ? update : item);
 
-
 export { getRandomArrayElement,
   getRandomInteger,
+  getRandomBoolean,
   createIdGenerator,
   capitalizeFirstLetter,
   isEscapeKey,

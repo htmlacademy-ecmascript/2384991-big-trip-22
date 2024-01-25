@@ -1,100 +1,41 @@
-import { getRandomInteger, createIdGenerator, getRandomArrayElement, } from '../utils/common.js';
-import { MAX_PRICE_VALUE } from '../const.js';
+import { getRandomInteger, createIdGenerator, getRandomArrayElement, getRandomBoolean } from '../utils/common.js';
+import { TYPES, OFFERS, MAX_PRICE_VALUE, DAYS_PER_YEAR,HOURS_PER_DAY, MINUTS_PER_HOUR, SECONDS_PER_MINUT, MILISECONDS_PER_SECOND } from '../const.js';
+import { mockDestinations } from './destinations.js';
 
 const pointsId = createIdGenerator();
 
-const mockPoints = [
-  {
-    id: pointsId().toString(),
-    basePrice: getRandomInteger(MAX_PRICE_VALUE),
-    dateFrom: '2024-07-12T09:00:00.000Z',
-    dateTo: '2024-07-12T09:30:00.000Z',
-    destination: '1',
-    isFavorite: true,
-    offers: ['2', '3'],
-    type: 'taxi',
-  },
-  {
-    id: pointsId().toString(),
-    basePrice: getRandomInteger(MAX_PRICE_VALUE),
-    dateFrom: '2024-07-12T10:00:00.000Z',
-    dateTo: '2024-07-12T10:50:00.000Z',
-    destination: '2',
-    isFavorite: true,
-    offers: ['1', '2', '3'],
-    type: 'bus',
-  },
-  {
-    id: pointsId().toString(),
-    basePrice: getRandomInteger(MAX_PRICE_VALUE),
-    dateFrom: '2024-07-12T11:00:00.000Z',
-    dateTo: '2024-07-12T12:00:00.000Z',
-    destination: '3',
-    isFavorite: true,
-    offers: ['1', '3'],
-    type: 'train',
-  },
-  {
-    id: pointsId().toString(),
-    basePrice: getRandomInteger(MAX_PRICE_VALUE),
-    dateFrom: '2024-07-12T13:00:00.000Z',
-    dateTo: '2024-07-12T15:00:00.000Z',
-    destination: '4',
-    isFavorite: true,
-    offers: ['1', '2', '3'],
-    type: 'ship',
-  },
-  {
-    id: pointsId().toString(),
-    basePrice: getRandomInteger(MAX_PRICE_VALUE),
-    dateFrom: '2023-12-12T16:00:00.000Z',
-    dateTo: '2023-12-12T16:30:00.000Z',
-    destination: '5',
-    isFavorite: true,
-    offers: ['1', '2', '4'],
-    type: 'drive',
-  },
-  {
-    id: pointsId().toString(),
-    basePrice: getRandomInteger(MAX_PRICE_VALUE),
-    dateFrom: '2023-12-12T17:00:00.000Z',
-    dateTo: '2023-12-12T20:00:00.000Z',
-    destination: '6',
-    isFavorite: true,
-    offers: ['3'],
-    type: 'flight',
-  },
-  {
-    id: pointsId().toString(),
-    basePrice: getRandomInteger(MAX_PRICE_VALUE),
-    dateFrom: '2023-12-12T21:00:00.000Z',
-    dateTo: '2023-12-12T21:30:00.000Z',
-    destination: '7',
-    isFavorite: false,
-    offers: [],
-    type: 'check-in',
-  },
-  {
-    id: pointsId().toString(),
-    basePrice: getRandomInteger(MAX_PRICE_VALUE),
-    dateFrom: '2023-12-12T22:00:00.000Z',
-    dateTo: '2023-12-12T23:30:00.000Z',
-    destination: '1',
-    isFavorite: false,
-    offers: ['1', '2', '3'],
-    type: 'sightseeing',
-  },
-  {
-    id: pointsId().toString(),
-    basePrice: getRandomInteger(MAX_PRICE_VALUE),
-    dateFrom: '2023-12-13T19:00:00.000Z',
-    dateTo: '2023-12-13T21:00:00.000Z',
-    destination: '2',
-    isFavorite: false,
-    offers: [],
-    type: 'restaurant',
-  },
-];
+const getRandomMockPoints = () => {
+  const pointId = pointsId().toString();
 
-const getRandomMockPoints = () => getRandomArrayElement(mockPoints);
-export { getRandomMockPoints, mockPoints };
+  const randomType = getRandomArrayElement(TYPES);
+
+  const randomDestination = getRandomArrayElement(mockDestinations);
+
+  const getRandomOffers = (offers) => {
+    const selectedOffers = [];
+    offers.forEach((offer) => {
+      if (getRandomBoolean()) {
+        selectedOffers.push(offer);
+      }
+    });
+    return selectedOffers;
+  };
+
+  const randomOffers = getRandomOffers(OFFERS);
+
+  const startDate = new Date(Date.now() + getRandomInteger(DAYS_PER_YEAR) * getRandomInteger(HOURS_PER_DAY) * getRandomInteger(MINUTS_PER_HOUR) * getRandomInteger(SECONDS_PER_MINUT) * getRandomInteger(MILISECONDS_PER_SECOND));
+  const endDate = new Date(startDate.getTime() + getRandomInteger(HOURS_PER_DAY) * getRandomInteger(MINUTS_PER_HOUR) * getRandomInteger(SECONDS_PER_MINUT) * getRandomInteger(MILISECONDS_PER_SECOND));
+
+  return {
+    id: pointId,
+    type: randomType,
+    destination: randomDestination.id,
+    basePrice: getRandomInteger(MAX_PRICE_VALUE),
+    dateFrom: startDate.toISOString(),
+    dateTo: endDate.toISOString(),
+    isFavorite: getRandomBoolean(),
+    offers: randomOffers,
+  };
+};
+
+export { getRandomMockPoints };

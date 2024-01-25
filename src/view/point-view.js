@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { humanizeShortDate, humanizeTime } from '../utils/dates.js';
+import { humanizeShortDate, humanizeTime } from '../utils/points.js';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 
