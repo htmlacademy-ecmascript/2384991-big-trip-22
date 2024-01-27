@@ -2,6 +2,9 @@ import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { capitalizeFirstLetter } from '../utils/common.js';
 import { humanizePointsDate } from '../utils/points.js';
 import { CITIES, TYPES } from '../const.js';
+import flatpickr from 'flatpickr';
+
+import 'flatpickr/dist/flatpickr.min.css';
 
 const createCityOptionsTemplate = () => CITIES.map((city) => `<option value="${city}"></option>`).join('');
 
