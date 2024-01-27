@@ -12,9 +12,7 @@ export default class AbstractStatefulView extends AbstractView {
    * @param {Object} update Объект с обновлённой частью состояния
    */
   updateElement(update) {
-    console.log('Updating element with', update);
     if (!update) {
-      console.log('Update not provided, skipping updateElement');
       return;
     }
 
@@ -29,7 +27,6 @@ export default class AbstractStatefulView extends AbstractView {
    */
   _restoreHandlers() {
     throw new Error('Abstract method not implemented: restoreHandlers');
-    console.log('Restoring handlers');
   }
 
   /**
@@ -37,29 +34,19 @@ export default class AbstractStatefulView extends AbstractView {
    * @param {Object} update Объект с обновлённой частью состояния
    */
   _setState(update) {
-    console.log('Current state before setState:', this._state);
-    console.log('Applying update:', update);
     this._state = structuredClone({...this._state, ...update});
-    console.log('New state after setState:', this._state);
   }
 
   /** Метод для перерисовки элемента */
   #rerenderElement() {
     const prevElement = this.element;
     const parent = prevElement.parentElement;
-    console.log('Starting rerenderElement');
-    console.log('prevElement:', prevElement);
-    console.log('parent:', parent);
-    if (!parent) {
-      console.log('No parent found, aborting rerender');
-      return;
-    }
     this.removeElement();
 
     const newElement = this.element;
-    console.log(newElement)
+
     parent.replaceChild(newElement, prevElement);
-    console.log('Finished rerenderElement');
+
     this._restoreHandlers();
   }
 }

@@ -5,7 +5,7 @@ const HOURS_PER_DAY = 24;
 const MINUTS_PER_HOUR = 60;
 const SECONDS_PER_MINUT = 60;
 const MILISECONDS_PER_SECOND = 1000;
-const POINT_COUNT = 1;
+const POINT_COUNT = 4;
 const NUMBER_OF_PHOTOS = 4;
 
 const TIME_FORMAT = 'HH:mm';

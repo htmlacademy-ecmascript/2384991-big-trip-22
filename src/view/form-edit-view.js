@@ -75,7 +75,7 @@ const createFormEditView = (point, destination, offersByType, checkedOffers) => 
       <span class="visually-hidden">Price</span>
       &euro;
     </label>
-    <input class="event__input  event__input--price" id="event-price-${id}" type="text" name="event-price" value="${basePrice}">
+    <input class="event__input  event__input--price" id="event-price-${id}" type="number" name="event-price" value="${basePrice}">
   </div>
   <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
   <button class="event__reset-btn" type="reset">Delete</button>
@@ -149,7 +149,7 @@ export default class FormEditView extends AbstractStatefulView {
     this.element.querySelector('.event__input--price').addEventListener('input', this.#priceInputChangeHandler);
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationChangeHandler);
     this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeChangeHandler);
-    this.element.querySelector('.event__available-offers').addEventListener('change', this.#selectOfferChangeHandler);
+    this.element.querySelector('.event__available-offers')?.addEventListener('change', this.#selectOfferChangeHandler);
   }
 
   #formSubmitHandler = (evt) => {
@@ -173,7 +173,6 @@ export default class FormEditView extends AbstractStatefulView {
     evt.preventDefault();
     if(evt.target.tagName === 'INPUT') {
       const selectedDestination = this.#allDestinations.find((pointDestination) => pointDestination.name === evt.target.value);
-      console.log('Calling updateElement with new destination:', selectedDestination);
 
       this.updateElement({
         ...this._state,
@@ -186,9 +185,6 @@ export default class FormEditView extends AbstractStatefulView {
     evt.preventDefault();
     const newType = evt.target.value;
     const offersForNewType = this.#pointsModel.getOfferByType(newType)?.offers || [];
-
-    console.log('New type:', newType);
-    console.log('Offers for new type:', offersForNewType);
 
     this.updateElement({
       ...this._state,
