@@ -108,16 +108,15 @@ ${isOffersExist ? `
 };
 
 export default class FormEditView extends AbstractStatefulView {
-  #point = null;
   #destination = null;
   #offers = null;
   #checkedOffers = null;
   #allDestinations = null;
-  #dateFrom = null;
-  #dateTo = null;
   #handleFormSubmit = null;
   #handleEditClick = null;
   #pointsModel = null;
+  #datepickerTo = null;
+  #datepickerFrom = null;
 
   constructor({point, destination, offers, checkedOffers, allDestinations, onFormSubmit, onEditClick, pointsModel }) {
     super();
@@ -144,6 +143,16 @@ export default class FormEditView extends AbstractStatefulView {
 
   removeElement() {
     super.removeElement();
+
+    if (this.#datepickerFrom) {
+      this.#datepickerFrom.destroy();
+      this.#datepickerFrom = null;
+    }
+
+    if (this.#datepickerTo) {
+      this.#datepickerTo.destroy();
+      this.#datepickerTo = null;
+    }
   }
 
   _restoreHandlers() {
@@ -153,6 +162,8 @@ export default class FormEditView extends AbstractStatefulView {
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationChangeHandler);
     this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeChangeHandler);
     this.element.querySelector('.event__available-offers')?.addEventListener('change', this.#selectOfferChangeHandler);
+
+    this.#setDatepickers();
   }
 
   #formSubmitHandler = (evt) => {
@@ -174,13 +185,15 @@ export default class FormEditView extends AbstractStatefulView {
 
   #destinationChangeHandler = (evt) => {
     evt.preventDefault();
+
     if(evt.target.tagName === 'INPUT') {
       const selectedDestination = this.#allDestinations.find((pointDestination) => pointDestination.name === evt.target.value);
+      const selectedDestinationId = (selectedDestination) ? selectedDestination.id : this._state.destination;
 
       this.updateElement({
-        ...this._state,
-        destination: selectedDestination.id,
+        destination: selectedDestinationId,
       });
+
     }
   };
 
@@ -190,7 +203,6 @@ export default class FormEditView extends AbstractStatefulView {
     const offersForNewType = this.#pointsModel.getOfferByType(newType)?.offers || [];
 
     this.updateElement({
-      ...this._state,
       type: newType,
       offers: offersForNewType,
     });
@@ -210,6 +222,40 @@ export default class FormEditView extends AbstractStatefulView {
       }
     }
   };
+
+  #dateFromCloseHandler = ([userDate]) => {
+    this.updateElement({ dateFrom: userDate });
+  };
+
+  #dateToCloseHandler = ([userDate]) => {
+    this.updateElement({ dateTo: userDate });
+  };
+
+  #setDatepickers() {
+    const commonConfig = {
+      dateFormat: 'd/m/y H:i',
+      enableTime: true,
+      'time_24hr': true,
+    };
+
+    this.#datepickerFrom = flatpickr(
+      this.element.querySelector('[name="event-start-time"]'),
+      {
+        ...commonConfig,
+        defaultDate: this._state.dateFrom,
+        onClose: this.#dateFromCloseHandler,
+        maxDate: this._state.dateTo
+      });
+
+    this.#datepickerTo = flatpickr(
+      this.element.querySelector('[name="event-end-time"]'),
+      {
+        ...commonConfig,
+        defaultDate: this._state.dateTo,
+        onClose: this.#dateToCloseHandler,
+        minDate: this._state.dateFrom
+      });
+  }
 
   static parsePointToState(point) {
     return {...point};
