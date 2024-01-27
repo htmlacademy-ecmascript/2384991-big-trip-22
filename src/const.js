@@ -5,8 +5,8 @@ const HOURS_PER_DAY = 24;
 const MINUTS_PER_HOUR = 60;
 const SECONDS_PER_MINUT = 60;
 const MILISECONDS_PER_SECOND = 1000;
-const POINT_COUNT = 4;
-const DESTINATION_NUMBER = 7;
+const POINT_COUNT = 1;
+const NUMBER_OF_PHOTOS = 4;
 
 const TIME_FORMAT = 'HH:mm';
 const DATE_FORMAT = 'DD/MM/YY HH:mm';
@@ -40,8 +40,8 @@ const SortType = {
   PRICE: 'price',
 };
 
-const Mode = {
-  DEFAULT: 'DEFAULT',
+const ModeType = {
+  VIEWING: 'VIEWING',
   EDITING: 'EDITING',
 };
 
@@ -53,14 +53,14 @@ export {
   CITY_DESCRIPTIONS,
   MAX_PRICE_VALUE,
   MAX_NUMBER,
-  DESTINATION_NUMBER,
+  NUMBER_OF_PHOTOS,
   POINT_COUNT,
   TIME_FORMAT,
   DATE_FORMAT,
   SHORT_DATE_FORMAT,
   FilterType,
   SortType,
-  Mode,
+  ModeType,
   DAYS_PER_YEAR,
   HOURS_PER_DAY,
   MINUTS_PER_HOUR,
