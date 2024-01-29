@@ -1,13 +1,12 @@
-import { CITIES, CITY_DESCRIPTIONS, DESTINATION_NUMBER, MAX_NUMBER } from '../const.js';
+import { CITIES, CITY_DESCRIPTIONS, NUMBER_OF_PHOTOS, MAX_NUMBER } from '../const.js';
 import { getRandomArrayElement, getRandomInteger, createIdGenerator } from '../utils/common.js';
 
 const destinationId = createIdGenerator();
 
-const createMockDestination = () => {
-  const cityName = getRandomArrayElement(CITIES);
+const createMockDestination = (cityName) => {
   const cityDescriptions = getRandomArrayElement(CITY_DESCRIPTIONS);
 
-  const numberOfPictures = getRandomInteger(4);
+  const numberOfPictures = getRandomInteger(NUMBER_OF_PHOTOS);
   const pictures = [];
 
   for (let i = 0; i < numberOfPictures; i++) {
@@ -25,6 +24,6 @@ const createMockDestination = () => {
   };
 };
 
-const mockDestinations = new Array(DESTINATION_NUMBER).fill(null).map(createMockDestination);
+const mockDestinations = CITIES.map(createMockDestination);
 
 export { mockDestinations };

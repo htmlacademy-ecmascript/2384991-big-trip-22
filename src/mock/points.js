@@ -12,7 +12,7 @@ const getRandomMockPoints = () => {
   const randomDestination = getRandomArrayElement(mockDestinations);
 
   const getRandomOffers = (offers) => {
-    const selectedOffers = [];
+    const selectedOffers = ['1', '2'];
     offers.forEach((offer) => {
       if (getRandomBoolean()) {
         selectedOffers.push(offer);

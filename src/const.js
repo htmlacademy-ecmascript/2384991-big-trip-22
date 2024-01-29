@@ -6,7 +6,7 @@ const MINUTS_PER_HOUR = 60;
 const SECONDS_PER_MINUT = 60;
 const MILISECONDS_PER_SECOND = 1000;
 const POINT_COUNT = 4;
-const DESTINATION_NUMBER = 7;
+const NUMBER_OF_PHOTOS = 4;
 
 const TIME_FORMAT = 'HH:mm';
 const DATE_FORMAT = 'DD/MM/YY HH:mm';
@@ -14,7 +14,7 @@ const SHORT_DATE_FORMAT = 'MMM DD';
 
 const CITIES = ['Paris', 'Amsterdam', 'Berlin', 'London', 'Chamonix', 'Geneva', 'Prague'];
 const TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
-const OFFERS = ['1', '2', '3'];
+const OFFERS = [];
 const SORTS = ['Day', 'Event', 'Time', 'Price', 'Offers'];
 
 const CITY_DESCRIPTIONS = [
@@ -40,9 +40,21 @@ const SortType = {
   PRICE: 'price',
 };
 
-const Mode = {
-  DEFAULT: 'DEFAULT',
+const ModeType = {
+  VIEWING: 'VIEWING',
   EDITING: 'EDITING',
+};
+
+const UserAction = {
+  UPDATE_POINT: 'UPDATE_POINT',
+  ADD_POINT: 'ADD_POINT',
+  DELETE_POINT: 'DELETE_POINT',
+};
+
+const UpdateType = {
+  PATCH: 'PATCH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR',
 };
 
 export {
@@ -53,14 +65,16 @@ export {
   CITY_DESCRIPTIONS,
   MAX_PRICE_VALUE,
   MAX_NUMBER,
-  DESTINATION_NUMBER,
+  NUMBER_OF_PHOTOS,
   POINT_COUNT,
   TIME_FORMAT,
   DATE_FORMAT,
   SHORT_DATE_FORMAT,
   FilterType,
   SortType,
-  Mode,
+  ModeType,
+  UserAction,
+  UpdateType,
   DAYS_PER_YEAR,
   HOURS_PER_DAY,
   MINUTS_PER_HOUR,
