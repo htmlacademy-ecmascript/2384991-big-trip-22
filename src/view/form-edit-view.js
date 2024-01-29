@@ -24,7 +24,12 @@ const createOffersTemplate = (offersByType, checkedOffers) => offersByType.map((
   const isChecked = checkedOfferIds.includes(offer.id);
   return `
       <div class="event__offer-selector">
-        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${id}" type="checkbox" name="event-offer-${id}" ${isChecked ? 'checked' : ''}>
+        <input class="event__offer-checkbox  visually-hidden"
+               id="event-offer-${id}"
+               type="checkbox"
+               name="event-offer-${id}"
+               ${isChecked ? 'checked' : ''}
+               data-offer-id="${id}">
         <label class="event__offer-label" for="event-offer-${id}">
           <span class="event__offer-title">${title}</span>
           &plus;&euro;&nbsp;
@@ -34,11 +39,13 @@ const createOffersTemplate = (offersByType, checkedOffers) => offersByType.map((
     `;
 }).join('');
 
-const createFormEditView = (point, destination, offersByType, checkedOffers) => {
+
+const createFormEditView = (point, allDestinations, offers, checkedOffers) => {
   const { dateFrom, dateTo, type, id, basePrice } = point;
+  const destination = allDestinations.find((dest) => dest.id === point.destination);
   const { name, description, pictures } = destination;
-  const { offers } = offersByType;
-  const isOffersExist = offersByType && offers && offers.length > 0;
+  const offersByType = offers.find((offer) => offer.type === point.type);
+  const isOffersExist = offersByType && offersByType.offers.length > 0;
   const offersTemplate = isOffersExist ? createOffersTemplate(offersByType.offers, checkedOffers) : '';
 
   return (`<li class="trip-events__item">
@@ -108,31 +115,33 @@ ${isOffersExist ? `
 };
 
 export default class FormEditView extends AbstractStatefulView {
-  #destination = null;
-  #offers = null;
+  #allOffers = null;
   #checkedOffers = null;
   #allDestinations = null;
-  #handleFormSubmit = null;
-  #handleEditClick = null;
   #pointsModel = null;
   #datepickerTo = null;
   #datepickerFrom = null;
+  #handleFormSubmit = null;
+  #handleEditClick = null;
+  #handleDeleteClick = null;
 
-  constructor({point, destination, offers, checkedOffers, allDestinations, onFormSubmit, onEditClick, pointsModel }) {
+  constructor({point, allOffers, checkedOffers, allDestinations, onFormSubmit, onEditClick, onDeleteClick, pointsModel }) {
     super();
+
     this._setState(FormEditView.parsePointToState(point));
-    this.#destination = destination;
-    this.#offers = offers;
-    this.#checkedOffers = checkedOffers;
+    this.#allOffers = allOffers;
     this.#allDestinations = allDestinations;
+    this.#checkedOffers = checkedOffers;
     this.#handleFormSubmit = onFormSubmit;
     this.#handleEditClick = onEditClick;
+    this.#handleDeleteClick = onDeleteClick;
     this.#pointsModel = pointsModel;
+
     this._restoreHandlers();
   }
 
   get template() {
-    return createFormEditView(this._state, this.#destination, this.#offers, this.#checkedOffers);
+    return createFormEditView(this._state, this.#allDestinations, this.#allOffers, this.#checkedOffers);
   }
 
   reset(point) {
@@ -162,6 +171,7 @@ export default class FormEditView extends AbstractStatefulView {
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationChangeHandler);
     this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeChangeHandler);
     this.element.querySelector('.event__available-offers')?.addEventListener('change', this.#selectOfferChangeHandler);
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteClickHandler);
 
     this.#setDatepickers();
   }
@@ -174,6 +184,11 @@ export default class FormEditView extends AbstractStatefulView {
   #editClickHandler = (evt) => {
     evt.preventDefault();
     this.#handleEditClick();
+  };
+
+  #formDeleteClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleDeleteClick(FormEditView.parseStateToPoint(this._state));
   };
 
   #priceInputChangeHandler = (evt) => {
@@ -208,19 +223,10 @@ export default class FormEditView extends AbstractStatefulView {
     });
   };
 
-  #selectOfferChangeHandler = (evt) => {
-    if (evt.target.tagName === 'INPUT') {
-      if (evt.target.checked) {
-        this._setState({
-          offers: [...this._state.offers, evt.target.dataset.offerId]
-        });
-      } else {
-        this._setState({
-          offers: this._state.offers.filter((offer) => offer !== evt.target.dataset.offerId)
-        });
-        this.updateElement(this._state.offers);
-      }
-    }
+  #selectOfferChangeHandler = () => {
+    const checkedOffers = Array.from(this.element.querySelectorAll('.event__offer-checkbox:checked'));
+
+    this._setState({...this._state.point, offers: checkedOffers.map((offer) => offer.dataset.offerId)});
   };
 
   #dateFromCloseHandler = ([userDate]) => {

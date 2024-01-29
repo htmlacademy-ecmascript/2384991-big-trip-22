@@ -2,7 +2,7 @@ import PointView from '../view/point-view.js';
 import FormEditView from '../view/form-edit-view.js';
 import { isEscapeKey } from '../utils/common.js';
 import { render, replace, remove } from '../framework/render.js';
-import { ModeType } from '../const.js';
+import { ModeType, UserAction, UpdateType } from '../const.js';
 
 export default class PointPresenter {
   #container = null;
@@ -39,12 +39,12 @@ export default class PointPresenter {
 
     this.#formEditComponent = new FormEditView({
       point: this.#point,
-      destination: this.#pointsModel.getDestinationById(this.#point.destination),
+      allOffers: this.#pointsModel.offers,
       checkedOffers: [...this.#pointsModel.getOfferById(this.#point.type, this.#point.offers)],
-      offers: this.#pointsModel.getOfferByType(this.#point.type),
       allDestinations: this.#pointsModel.destinations,
       onFormSubmit: this.#handleFormSubmit,
       onEditClick: this.#hadleEditCloseClick,
+      onDeleteClick: this.#handleDeleteClick,
       pointsModel: this.#pointsModel,
     });
     if(prevPointComponent === null || prevFormEditComponent === null) {
@@ -99,7 +99,11 @@ export default class PointPresenter {
   };
 
   #handleFavoriteClick = () => {
-    this.#handleDataChange({...this.#point, isFavorite: !this.#point.isFavorite});
+    this.#handleDataChange(
+      UserAction.UPDATE_POINT,
+      UpdateType.MINOR,
+      {...this.#point, isFavorite: !this.#point.isFavorite}
+    );
   };
 
   #hadleEditClick = () => {
@@ -111,8 +115,20 @@ export default class PointPresenter {
     this.#replaceFormToPoint();
   };
 
+  #handleDeleteClick = (point) => {
+    this.#handleDataChange(
+      UserAction.DELETE_POINT,
+      UpdateType.MINOR,
+      point,
+    );
+  };
+
   #handleFormSubmit = (point) => {
-    this.#handleDataChange(point);
+    this.#handleDataChange(
+      UserAction.UPDATE_POINT,
+      UpdateType.MINOR,
+      point
+    );
     this.#replaceFormToPoint();
   };
 }

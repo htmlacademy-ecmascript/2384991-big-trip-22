@@ -17,12 +17,10 @@ const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + strin
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const updateItem = (items, update) => items.map((item) => item.id === update.id ? update : item);
-
 export { getRandomArrayElement,
   getRandomInteger,
   getRandomBoolean,
   createIdGenerator,
   capitalizeFirstLetter,
-  isEscapeKey,
-  updateItem };
+  isEscapeKey
+};

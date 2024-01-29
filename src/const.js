@@ -14,7 +14,7 @@ const SHORT_DATE_FORMAT = 'MMM DD';
 
 const CITIES = ['Paris', 'Amsterdam', 'Berlin', 'London', 'Chamonix', 'Geneva', 'Prague'];
 const TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
-const OFFERS = ['1', '2', '3'];
+const OFFERS = [];
 const SORTS = ['Day', 'Event', 'Time', 'Price', 'Offers'];
 
 const CITY_DESCRIPTIONS = [
@@ -45,6 +45,18 @@ const ModeType = {
   EDITING: 'EDITING',
 };
 
+const UserAction = {
+  UPDATE_POINT: 'UPDATE_POINT',
+  ADD_POINT: 'ADD_POINT',
+  DELETE_POINT: 'DELETE_POINT',
+};
+
+const UpdateType = {
+  PATCH: 'PATCH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR',
+};
+
 export {
   CITIES,
   TYPES,
@@ -61,6 +73,8 @@ export {
   FilterType,
   SortType,
   ModeType,
+  UserAction,
+  UpdateType,
   DAYS_PER_YEAR,
   HOURS_PER_DAY,
   MINUTS_PER_HOUR,
