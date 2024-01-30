@@ -3,6 +3,7 @@ import FormEditView from '../view/form-edit-view.js';
 import { isEscapeKey } from '../utils/common.js';
 import { render, replace, remove } from '../framework/render.js';
 import { ModeType, UserAction, UpdateType } from '../const.js';
+import { isDatesEqual } from '../utils/points.js';
 
 export default class PointPresenter {
   #container = null;
@@ -123,11 +124,17 @@ export default class PointPresenter {
     );
   };
 
-  #handleFormSubmit = (point) => {
+  #handleFormSubmit = (updatedPoint) => {
+    const isMinorUpdate = (
+      !isDatesEqual(this.#point.dateFrom, updatedPoint.dateFrom) ||
+      !isDatesEqual(this.#point.dateTo, updatedPoint.dateTo) ||
+      this.#point.basePrice !== updatedPoint.basePrice
+    );
+
     this.#handleDataChange(
       UserAction.UPDATE_POINT,
-      UpdateType.MINOR,
-      point
+      isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
+      updatedPoint
     );
     this.#replaceFormToPoint();
   };
