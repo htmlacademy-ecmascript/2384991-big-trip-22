@@ -2,7 +2,7 @@ import { getRandomInteger, createIdGenerator, getRandomArrayElement, getRandomBo
 import { TYPES, OFFERS, MAX_PRICE_VALUE, DAYS_PER_YEAR,HOURS_PER_DAY, MINUTS_PER_HOUR, SECONDS_PER_MINUT, MILISECONDS_PER_SECOND } from '../const.js';
 import { mockDestinations } from './destinations.js';
 
-const pointsId = createIdGenerator();
+const pointsId = createIdGenerator(0);
 
 const getRandomMockPoints = () => {
   const pointId = pointsId().toString();

@@ -4,13 +4,9 @@ const getRandomInteger = (max) => Math.floor(Math.random() * max);
 
 const getRandomBoolean = () => Math.random() >= 0.5;
 
-const createIdGenerator = () => {
-  let lastGeneratedId = 0;
-
-  return function () {
-    lastGeneratedId += 1;
-    return lastGeneratedId;
-  };
+const createIdGenerator = (lastGeneratedId) => function () {
+  lastGeneratedId += 1;
+  return lastGeneratedId;
 };
 
 const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);

@@ -1,4 +1,5 @@
 import InfoView from './view/info-view.js';
+import AddEventButton from './view/add-event-button.js';
 import BoardPresenter from './presenter/board-presenter.js';
 import FilterPresenter from './presenter/filter-presenter.js';
 import PointsModel from './model/points-model.js';
@@ -13,10 +14,21 @@ const tripFilters = siteHeader.querySelector('.trip-controls__filters');
 const pointsModel = new PointsModel();
 const filterModel = new FilterModel();
 
-const boardPresenter = new BoardPresenter({container: tripEvents, pointsModel, filterModel});
+const boardPresenter = new BoardPresenter({container: tripEvents, pointsModel, filterModel, onNewPointDestroy: handleAddEventFormClose});
 const filterPresenter = new FilterPresenter({filterContainer: tripFilters, filterModel, pointsModel});
 
 render(new InfoView(), tripMain, RenderPosition.AFTERBEGIN);
+const addEventButtonComponent = new AddEventButton({onAddEventClick: handleAddEventButtonClick});
 
+function handleAddEventFormClose() {
+  addEventButtonComponent.element.disabled = false;
+}
+
+function handleAddEventButtonClick() {
+  boardPresenter.createPoint();
+  addEventButtonComponent.element.disabled = true;
+}
+
+render(addEventButtonComponent, tripMain, RenderPosition.BEFOREEND);
 boardPresenter.init();
 filterPresenter.init();

@@ -37,7 +37,6 @@ export default class PointPresenter {
       onFavoriteClick: this.#handleFavoriteClick,
     });
 
-
     this.#formEditComponent = new FormEditView({
       point: this.#point,
       allOffers: this.#pointsModel.offers,
@@ -48,6 +47,7 @@ export default class PointPresenter {
       onDeleteClick: this.#handleDeleteClick,
       pointsModel: this.#pointsModel,
     });
+
     if(prevPointComponent === null || prevFormEditComponent === null) {
       render(this.#pointComponent, this.#container);
       return;
