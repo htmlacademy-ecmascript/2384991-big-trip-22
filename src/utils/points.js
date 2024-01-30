@@ -24,6 +24,8 @@ const sortPointsByTime = (eventA, eventB) => {
 
 const sortPointsByDay = (eventA, eventB) => dayjs(eventA.dateFrom).diff(dayjs(eventB.dateFrom));
 
+const isDatesEqual = (dateA, dateB) => (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB, 'D');
+
 export {
   humanizeTime,
   humanizePointsDate,
@@ -34,4 +36,5 @@ export {
   sortPointsByPrice,
   sortPointsByTime,
   sortPointsByDay,
+  isDatesEqual
 };
