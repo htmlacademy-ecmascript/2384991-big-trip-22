@@ -1,38 +1,41 @@
 import { render, RenderPosition, remove } from '../framework/render.js';
 import { createIdGenerator, isEscapeKey } from '../utils/common.js';
-import { UserAction, UpdateType } from '../const.js';
+import { UserAction, UpdateType, BLANK_POINT } from '../const.js';
 import FormEditView from '../view/form-edit-view.js';
 
 export default class FormAddPresenter {
-  #point = null;
   #pointListContainer = null;
   #handleDataChange = null;
   #handleDestroy = null;
   #allDestinations = null;
   #allOffers = null;
   #formEditComponent = null;
+  #pointsModel = null;
 
-  constructor({ pointListContainer, onDataChange, onDestroy, allDestinations, allOffers }) {
+  constructor({ pointListContainer, onDataChange, onDestroy, allDestinations, allOffers, pointsModel }) {
     this.#pointListContainer = pointListContainer;
     this.#handleDataChange = onDataChange;
     this.#handleDestroy = onDestroy;
     this.#allDestinations = allDestinations;
     this.#allOffers = allOffers;
+    this.#pointsModel = pointsModel;
   }
 
-  init(point) {
-    this.#point = point;
-
+  init(point = BLANK_POINT) {
     if (this.#formEditComponent !== null) {
       return;
     }
 
     this.#formEditComponent = new FormEditView({
-      point: this.#point,
-      allOffers: this.#allOffers,
-      allDestinations: this.#allDestinations,
+      point: point,
+      pointsModel: this.#pointsModel,
+      allOffers: this.#allOffers || [],
+      allDestinations: this.#allDestinations || [],
+      checkedOffers: [],
       onFormSubmit: this.#handleFormSubmit,
       onDeleteClick: this.#handleDeleteClick,
+      onEditClick: this.#hadleEditCloseClick,
+      isNewPoint: true,
     });
 
     render(this.#formEditComponent, this.#pointListContainer, RenderPosition.AFTERBEGIN);
@@ -54,13 +57,11 @@ export default class FormAddPresenter {
   }
 
   #handleFormSubmit = (point) => {
-    const pointId = createIdGenerator(100);
-
+    const newId = createIdGenerator(100);
     this.#handleDataChange(
       UserAction.ADD_POINT,
       UpdateType.MINOR,
-
-      {id: pointId, ...point},
+      {...BLANK_POINT, id: newId(), ...point},
     );
     this.destroy();
   };
@@ -69,11 +70,14 @@ export default class FormAddPresenter {
     this.destroy();
   };
 
+  #hadleEditCloseClick = () => {
+    this.destroy();
+  };
+
   #escKeyDownHandler = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       this.destroy();
-      document.removeEventListener('keydown', this.#escKeyDownHandler);
     }
   };
 }

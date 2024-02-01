@@ -1,5 +1,5 @@
 import InfoView from './view/info-view.js';
-import AddEventButton from './view/add-event-button.js';
+import AddEventButton from './view/add-event-button-view.js';
 import BoardPresenter from './presenter/board-presenter.js';
 import FilterPresenter from './presenter/filter-presenter.js';
 import PointsModel from './model/points-model.js';

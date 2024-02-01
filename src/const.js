@@ -9,7 +9,6 @@ const POINT_COUNT = 4;
 const NUMBER_OF_PHOTOS = 4;
 
 const TIME_FORMAT = 'HH:mm';
-const DATE_FORMAT = 'DD/MM/YY HH:mm';
 const SHORT_DATE_FORMAT = 'MMM DD';
 
 const CITIES = ['Paris', 'Amsterdam', 'Berlin', 'London', 'Chamonix', 'Geneva', 'Prague'];
@@ -64,6 +63,16 @@ const NoPointsTextType = {
   [FilterType.PAST]: 'There are no past events now',
 };
 
+const BLANK_POINT = {
+  'type': 'flight',
+  'destination': '',
+  'dateFrom': null,
+  'dateTo': null,
+  'basePrice': 0,
+  'offers': [],
+  'isFavorite': false
+};
+
 export {
   CITIES,
   TYPES,
@@ -75,7 +84,6 @@ export {
   NUMBER_OF_PHOTOS,
   POINT_COUNT,
   TIME_FORMAT,
-  DATE_FORMAT,
   SHORT_DATE_FORMAT,
   FilterType,
   NoPointsTextType,
@@ -87,5 +95,6 @@ export {
   HOURS_PER_DAY,
   MINUTS_PER_HOUR,
   SECONDS_PER_MINUT,
-  MILISECONDS_PER_SECOND
+  MILISECONDS_PER_SECOND,
+  BLANK_POINT
 };

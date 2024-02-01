@@ -33,7 +33,7 @@ export default class PointPresenter {
       point: this.#point,
       destination: this.#pointsModel.getDestinationById(this.#point.destination),
       offers: [...this.#pointsModel.getOfferById(this.#point.type, this.#point.offers)],
-      onEditClick: this.#hadleEditClick,
+      onEditClick: this.#handleEditClick,
       onFavoriteClick: this.#handleFavoriteClick,
     });
 
@@ -43,7 +43,7 @@ export default class PointPresenter {
       checkedOffers: [...this.#pointsModel.getOfferById(this.#point.type, this.#point.offers)],
       allDestinations: this.#pointsModel.destinations,
       onFormSubmit: this.#handleFormSubmit,
-      onEditClick: this.#hadleEditCloseClick,
+      onEditClick: this.#handleEditCloseClick,
       onDeleteClick: this.#handleDeleteClick,
       pointsModel: this.#pointsModel,
     });
@@ -107,11 +107,11 @@ export default class PointPresenter {
     );
   };
 
-  #hadleEditClick = () => {
+  #handleEditClick = () => {
     this.#replacePointToForm();
   };
 
-  #hadleEditCloseClick = () => {
+  #handleEditCloseClick = () => {
     this.#formEditComponent.reset(this.#point);
     this.#replaceFormToPoint();
   };

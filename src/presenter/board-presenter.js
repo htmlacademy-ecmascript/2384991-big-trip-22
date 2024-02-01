@@ -4,7 +4,7 @@ import NoPointView from '../view/no-point-view.js';
 import PointPresenter from './point-presenter.js';
 import FormAddPresenter from './form-add-presenter.js';
 import { render, RenderPosition, remove } from '../framework/render.js';
-import { SortType, UpdateType, UserAction, FilterType } from '../const.js';
+import { SortType, UpdateType, UserAction, FilterType, BLANK_POINT } from '../const.js';
 import { sortPointsByPrice, sortPointsByTime, sortPointsByDay } from '../utils/points.js';
 import { filter } from '../utils/filters.js';
 
@@ -33,6 +33,7 @@ export default class BoardPresenter {
       onDestroy: onNewPointDestroy,
       allDestinations: this.#pointsModel.destinations,
       allOffers: this.#pointsModel.offers,
+      pointsModel: this.#pointsModel
     });
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
@@ -60,10 +61,10 @@ export default class BoardPresenter {
     this.#renderBoard();
   }
 
-  createPoint(point) {
+  createPoint() {
     this.#currentSortType = SortType.DAY;
     this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
-    this.#formAddPresenter.init(point);
+    this.#formAddPresenter.init(BLANK_POINT);
   }
 
   #handleModeChange = () => {
@@ -84,6 +85,7 @@ export default class BoardPresenter {
         break;
     }
   };
+
 
   #handleModelEvent = (updateType, data) => {
     switch (updateType) {
