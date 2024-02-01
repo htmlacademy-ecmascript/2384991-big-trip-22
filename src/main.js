@@ -4,7 +4,7 @@ import BoardPresenter from './presenter/board-presenter.js';
 import FilterPresenter from './presenter/filter-presenter.js';
 import PointsModel from './model/points-model.js';
 import FilterModel from './model/filter-model.js';
-import PointsApiService from './points-api-service.js';
+import PointsApiService from './api-service/points-api-service.js';
 import { render, RenderPosition } from './framework/render.js';
 import { AUTORIZATION, END_POINT } from './const.js';
 
