@@ -36,6 +36,9 @@ const BLANK_POINT = {
   'isFavorite': false
 };
 
+const AUTORIZATION = 'Basic lk91s51cz18';
+const END_POINT = 'https://22.objects.htmlacademy.pro/big-trip';
+
 const FilterType = {
   EVERYTHING: 'everything',
   FUTURE: 'future',
@@ -96,6 +99,8 @@ export {
   MILISECONDS_PER_SECOND,
   SHORT_DATE_FORMAT,
   BLANK_POINT,
+  AUTORIZATION,
+  END_POINT,
   FilterType,
   NoPointsTextType,
   SortType,

@@ -4,14 +4,16 @@ import BoardPresenter from './presenter/board-presenter.js';
 import FilterPresenter from './presenter/filter-presenter.js';
 import PointsModel from './model/points-model.js';
 import FilterModel from './model/filter-model.js';
+import PointsApiService from './points-api-service.js';
 import { render, RenderPosition } from './framework/render.js';
+import { AUTORIZATION, END_POINT } from './const.js';
 
 const siteHeader = document.querySelector('.page-header');
 const tripEvents = document.querySelector('.trip-events');
 const tripMain = siteHeader.querySelector('.trip-main');
 const tripFilters = siteHeader.querySelector('.trip-controls__filters');
 
-const pointsModel = new PointsModel();
+const pointsModel = new PointsModel({pointsApiService: new PointsApiService(END_POINT, AUTORIZATION)});
 const filterModel = new FilterModel();
 
 const boardPresenter = new BoardPresenter({container: tripEvents, pointsModel, filterModel, onNewPointDestroy: handleAddEventFormClose});
