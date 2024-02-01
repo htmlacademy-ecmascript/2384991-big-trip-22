@@ -1,5 +1,8 @@
-import dayjs from 'dayjs';
 import { SHORT_DATE_FORMAT, TIME_FORMAT } from '../const.js';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+
+dayjs.extend(duration);
 
 const humanizeShortDate = (date) => dayjs(date).format(SHORT_DATE_FORMAT).toUpperCase();
 const humanizeTime = (date) => dayjs(date).format(TIME_FORMAT);
@@ -23,7 +26,15 @@ const sortPointsByTime = (eventA, eventB) => {
 
 const sortPointsByDay = (eventA, eventB) => dayjs(eventA.dateFrom).diff(dayjs(eventB.dateFrom));
 
-const isDatesEqual = (dateA, dateB) => (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB, 'D');
+const isDatesEqual = (dateA, dateB) => {
+  if(dateA === null && dateB === null) {
+    return true;
+  } else if(dateA && dateB) {
+    return dayjs(dateA).isSame(dateB, 'minute');
+  } else {
+    return false;
+  }
+};
 
 export {
   humanizeTime,

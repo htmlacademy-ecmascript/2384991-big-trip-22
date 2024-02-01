@@ -2,6 +2,7 @@ import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { capitalizeFirstLetter } from '../utils/common.js';
 import { CITIES, TYPES } from '../const.js';
 import flatpickr from 'flatpickr';
+import he from 'he';
 
 import 'flatpickr/dist/flatpickr.min.css';
 
@@ -82,24 +83,24 @@ const createFormEditView = (point, allDestinations, offers, checkedOffers, isNew
   <label class="event__label  event__type-output" for="event-destination-${destination.id}">
   ${capitalizeFirstLetter(type)}
   </label>
-    <input class="event__input  event__input--destination" id="event-destination-${destination.id}" type="text" name="event-destination" value="${name}" list="destination-list-${destination.id}" placeholder="Where should we go?" required>
+    <input class="event__input  event__input--destination" id="event-destination-${destination.id}" type="text" name="event-destination" value="${he.encode(name)}" list="destination-list-${destination.id}" placeholder="Where should we go?" required>
     <datalist id="destination-list-${destination.id}">
       ${createCityOptionsTemplate()}
     </datalist>
   </div>
   <div class="event__field-group  event__field-group--time">
     <label class="visually-hidden" for="event-start-time-${id}">From</label>
-    <input class="event__input  event__input--time" id="event-start-time-${id}" type="text" name="event-start-time" value="">
+    <input class="event__input  event__input--time" id="event-start-time-${id}" type="text" name="event-start-time" value="" required>
     &mdash;
     <label class="visually-hidden" for="event-end-time-${id}">To</label>
-    <input class="event__input  event__input--time" id="event-end-time-${id}" type="text" name="event-end-time" value="">
+    <input class="event__input  event__input--time" id="event-end-time-${id}" type="text" name="event-end-time" value="" required>
   </div>
   <div class="event__field-group  event__field-group--price">
     <label class="event__label" for="event-price-${id}">
       <span class="visually-hidden">Price</span>
       &euro;
     </label>
-    <input class="event__input  event__input--price" id="event-price-${id}" type="number" name="event-price" value="${basePrice}">
+    <input class="event__input  event__input--price" id="event-price-${id}" type="number" min="1" name="event-price" value="${basePrice}" required>
   </div>
   <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
   ${deleteButtonTemplate}
@@ -143,6 +144,8 @@ export default class FormEditView extends AbstractStatefulView {
     this.#handleDeleteClick = onDeleteClick;
     this.#pointsModel = pointsModel;
     this.isNewPoint = isNewPoint;
+    this.isDateFromValid = !!point.dateFrom;
+    this.isDateToValid = !!point.dateTo;
 
     this._restoreHandlers();
   }
@@ -185,7 +188,9 @@ export default class FormEditView extends AbstractStatefulView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#handleFormSubmit(FormEditView.parseStateToPoint(this._state));
+    if (this.isDateFromValid && this.isDateToValid) {
+      this.#handleFormSubmit(FormEditView.parseStateToPoint(this._state));
+    }
   };
 
   #editClickHandler = (evt) => {
@@ -237,11 +242,21 @@ export default class FormEditView extends AbstractStatefulView {
   };
 
   #dateFromCloseHandler = ([userDate]) => {
-    this.updateElement({ dateFrom: userDate });
+    if (userDate) {
+      this.isDateFromValid = true;
+      this.updateElement({ dateFrom: userDate });
+    } else {
+      this.isDateFromValid = false;
+    }
   };
 
   #dateToCloseHandler = ([userDate]) => {
-    this.updateElement({ dateTo: userDate });
+    if (userDate) {
+      this.isDateToValid = true;
+      this.updateElement({ dateTo: userDate });
+    } else {
+      this.isDateToValid = false;
+    }
   };
 
   #setDatepickers() {
@@ -251,24 +266,45 @@ export default class FormEditView extends AbstractStatefulView {
       'time_24hr': true,
     };
 
-    this.#datepickerFrom = flatpickr(
-      this.element.querySelector('[name="event-start-time"]'),
-      {
-        ...commonConfig,
-        defaultDate: this._state.dateFrom,
-        onClose: this.#dateFromCloseHandler,
-        maxDate: this._state.dateTo
-      });
+    if (this._state.dateFrom) {
+      this.#datepickerFrom = flatpickr(
+        this.element.querySelector('[name="event-start-time"]'),
+        {
+          ...commonConfig,
+          defaultDate: this._state.dateFrom,
+          onClose: this.#dateFromCloseHandler,
+          maxDate: this._state.dateTo
+        });
+    } else {
+      this.#datepickerFrom = flatpickr(
+        this.element.querySelector('[name="event-start-time"]'),
+        {
+          ...commonConfig,
+          onClose: this.#dateFromCloseHandler,
+          maxDate: this._state.dateTo
+        });
+    }
 
-    this.#datepickerTo = flatpickr(
-      this.element.querySelector('[name="event-end-time"]'),
-      {
-        ...commonConfig,
-        defaultDate: this._state.dateTo,
-        onClose: this.#dateToCloseHandler,
-        minDate: this._state.dateFrom
-      });
+    if (this._state.dateTo) {
+      this.#datepickerTo = flatpickr(
+        this.element.querySelector('[name="event-end-time"]'),
+        {
+          ...commonConfig,
+          defaultDate: this._state.dateTo,
+          onClose: this.#dateToCloseHandler,
+          minDate: this._state.dateFrom
+        });
+    } else {
+      this.#datepickerTo = flatpickr(
+        this.element.querySelector('[name="event-end-time"]'),
+        {
+          ...commonConfig,
+          onClose: this.#dateToCloseHandler,
+          minDate: this._state.dateFrom
+        });
+    }
   }
+
 
   static parsePointToState(point) {
     return {...point};

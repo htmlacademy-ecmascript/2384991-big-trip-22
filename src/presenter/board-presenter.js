@@ -19,6 +19,7 @@ export default class BoardPresenter {
 
   #pointPresenters = new Map();
   #formAddPresenter = null;
+
   #currentSortType = SortType.DAY;
   #filterType = FilterType.EVERYTHING;
 

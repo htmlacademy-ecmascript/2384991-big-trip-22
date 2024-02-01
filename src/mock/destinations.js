@@ -1,7 +1,7 @@
 import { CITIES, CITY_DESCRIPTIONS, NUMBER_OF_PHOTOS, MAX_NUMBER } from '../const.js';
 import { getRandomArrayElement, getRandomInteger, createIdGenerator } from '../utils/common.js';
 
-const destinationId = createIdGenerator(0);
+const destinationId = createIdGenerator();
 
 const createMockDestination = (cityName) => {
   const cityDescriptions = getRandomArrayElement(CITY_DESCRIPTIONS);
