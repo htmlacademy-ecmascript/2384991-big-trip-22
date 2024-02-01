@@ -26,6 +26,16 @@ const CITY_DESCRIPTIONS = [
   'is a city of green spaces, from serene parks to lively recreation areas.'
 ];
 
+const BLANK_POINT = {
+  'type': 'flight',
+  'destination': '',
+  'dateFrom': null,
+  'dateTo': null,
+  'basePrice': 0,
+  'offers': [],
+  'isFavorite': false
+};
+
 const FilterType = {
   EVERYTHING: 'everything',
   FUTURE: 'future',
@@ -63,14 +73,9 @@ const NoPointsTextType = {
   [FilterType.PAST]: 'There are no past events now',
 };
 
-const BLANK_POINT = {
-  'type': 'flight',
-  'destination': '',
-  'dateFrom': null,
-  'dateTo': null,
-  'basePrice': 0,
-  'offers': [],
-  'isFavorite': false
+const Method = {
+  GET: 'GET',
+  PUT: 'PUT',
 };
 
 export {
@@ -84,17 +89,18 @@ export {
   NUMBER_OF_PHOTOS,
   POINT_COUNT,
   TIME_FORMAT,
+  DAYS_PER_YEAR,
+  HOURS_PER_DAY,
+  MINUTS_PER_HOUR,
+  SECONDS_PER_MINUT,
+  MILISECONDS_PER_SECOND,
   SHORT_DATE_FORMAT,
+  BLANK_POINT,
   FilterType,
   NoPointsTextType,
   SortType,
   ModeType,
   UserAction,
   UpdateType,
-  DAYS_PER_YEAR,
-  HOURS_PER_DAY,
-  MINUTS_PER_HOUR,
-  SECONDS_PER_MINUT,
-  MILISECONDS_PER_SECOND,
-  BLANK_POINT
+  Method,
 };
