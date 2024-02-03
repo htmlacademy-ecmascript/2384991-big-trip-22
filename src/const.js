@@ -1,7 +1,6 @@
 const TIME_FORMAT = 'HH:mm';
 const SHORT_DATE_FORMAT = 'MMM DD';
 
-const CITIES = ['Milan', 'Den Haag', 'Rotterdam', 'Valencia', 'Chamonix', 'Oslo', 'Barcelona', 'Madrid', 'Saint Petersburg', 'Monaco'];
 const TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 const SORTS = ['Day', 'Event', 'Time', 'Price', 'Offers'];
 
@@ -63,8 +62,12 @@ const Method = {
   DELETE: 'DELETE',
 };
 
+const TimeLimit = {
+  LOWER_LIMIT: 350,
+  UPPER_LIMIT: 1000,
+};
+
 export {
-  CITIES,
   TYPES,
   SORTS,
   TIME_FORMAT,
@@ -79,4 +82,5 @@ export {
   UserAction,
   UpdateType,
   Method,
+  TimeLimit,
 };
