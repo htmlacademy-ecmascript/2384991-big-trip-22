@@ -1,5 +1,5 @@
 import { render, RenderPosition, remove } from '../framework/render.js';
-import { newPointId, isEscapeKey } from '../utils/common.js';
+import { isEscapeKey } from '../utils/common.js';
 import { UserAction, UpdateType, BLANK_POINT } from '../const.js';
 import FormEditView from '../view/form-edit-view.js';
 
@@ -30,7 +30,7 @@ export default class FormAddPresenter {
       point: point,
       pointsModel: this.#pointsModel,
       allOffers: this.#allOffers || [],
-      allDestinations: this.#allDestinations || [],
+      allDestinations: this.#allDestinations,
       checkedOffers: [],
       onFormSubmit: this.#handleFormSubmit,
       onDeleteClick: this.#handleDeleteClick,
@@ -57,12 +57,10 @@ export default class FormAddPresenter {
   }
 
   #handleFormSubmit = (point) => {
-    const newId = newPointId();
-
     this.#handleDataChange(
       UserAction.ADD_POINT,
       UpdateType.MINOR,
-      {...BLANK_POINT, id: newId, ...point},
+      point,
     );
     this.destroy();
   };

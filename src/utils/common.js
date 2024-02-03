@@ -1,37 +1,8 @@
-const getRandomArrayElement = (items) => items[Math.floor(Math.random() * items.length)];
-
-const getRandomInteger = (max) => Math.floor(Math.random() * max);
-
-const getRandomBoolean = () => Math.random() >= 0.5;
-
-const createIdGenerator = () => {
-  let lastGeneratedId = 0;
-  return function () {
-    lastGeneratedId += 1;
-    return lastGeneratedId;
-  };
-};
-
-const createIdGeneratorForNewPoint = () => {
-  let lastGeneratedId = 100;
-  return function () {
-    lastGeneratedId += 1;
-    return lastGeneratedId;
-  };
-};
-
-const newPointId = createIdGeneratorForNewPoint();
-
-
 const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export { getRandomArrayElement,
-  getRandomInteger,
-  getRandomBoolean,
-  createIdGenerator,
-  newPointId,
+export {
   capitalizeFirstLetter,
   isEscapeKey
 };

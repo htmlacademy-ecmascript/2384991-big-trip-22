@@ -31,6 +31,8 @@ function handleAddEventButtonClick() {
   addEventButtonComponent.element.disabled = true;
 }
 
-render(addEventButtonComponent, tripMain, RenderPosition.BEFOREEND);
 boardPresenter.init();
 filterPresenter.init();
+pointsModel.init().finally(() => {
+  render(addEventButtonComponent, tripMain, RenderPosition.BEFOREEND);
+});

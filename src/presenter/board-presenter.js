@@ -1,6 +1,7 @@
 import EditListView from '../view/edit-list-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointView from '../view/no-point-view.js';
+import LoadingView from '../view/loading-view.js';
 import PointPresenter from './point-presenter.js';
 import FormAddPresenter from './form-add-presenter.js';
 import { render, RenderPosition, remove } from '../framework/render.js';
@@ -16,12 +17,14 @@ export default class BoardPresenter {
   #sortComponent = null;
   #noPointsComponent = null;
   #editListComponent = new EditListView();
+  #loadingComponent = new LoadingView();
 
   #pointPresenters = new Map();
   #formAddPresenter = null;
 
   #currentSortType = SortType.DAY;
   #filterType = FilterType.EVERYTHING;
+  #isLoading = true;
 
   constructor({ container, pointsModel, filterModel, onNewPointDestroy }) {
     this.#container = container;
@@ -87,7 +90,6 @@ export default class BoardPresenter {
     }
   };
 
-
   #handleModelEvent = (updateType, data) => {
     switch (updateType) {
       case UpdateType.PATCH:
@@ -99,6 +101,11 @@ export default class BoardPresenter {
         break;
       case UpdateType.MAJOR:
         this.#clearBoard({resetSortType: true});
+        this.#renderBoard();
+        break;
+      case UpdateType.INIT:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
         this.#renderBoard();
         break;
     }
@@ -144,6 +151,10 @@ export default class BoardPresenter {
     });
   }
 
+  #renderLoading() {
+    render(this.#loadingComponent, this.#container);
+  }
+
   #renderNoPoints() {
     this.#noPointsComponent = new NoPointView({
       filterType: this.#filterType,
@@ -159,6 +170,7 @@ export default class BoardPresenter {
 
     remove(this.#sortComponent);
     remove(this.#noPointsComponent);
+    remove(this.#loadingComponent);
 
     if (resetSortType) {
       this.#currentSortType = SortType.DAY;
@@ -171,6 +183,11 @@ export default class BoardPresenter {
 
   #renderBoard() {
     this.#renderEditList();
+
+    if(this.#isLoading) {
+      this.#renderLoading();
+      return;
+    }
 
     const points = this.points;
     const pointCount = points.length;
