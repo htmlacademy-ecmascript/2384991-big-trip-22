@@ -39,7 +39,7 @@ export default class FormAddPresenter {
     });
     render(this.#formEditComponent, this.#pointListContainer, RenderPosition.AFTERBEGIN);
 
-    document.addEventListener('keydown', this.#escKeyDownHandler);
+    document.addEventListener('keydown', this.#handleEscKeyClick);
   }
 
   destroy() {
@@ -54,7 +54,7 @@ export default class FormAddPresenter {
     remove(this.#formEditComponent);
     this.#formEditComponent = null;
 
-    document.removeEventListener('keydown', this.#escKeyDownHandler);
+    document.removeEventListener('keydown', this.#handleEscKeyClick);
   }
 
   setSaving() {
@@ -92,7 +92,7 @@ export default class FormAddPresenter {
     this.destroy();
   };
 
-  #escKeyDownHandler = (evt) => {
+  #handleEscKeyClick = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       this.destroy();
