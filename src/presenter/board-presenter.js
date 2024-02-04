@@ -69,76 +69,6 @@ export default class BoardPresenter {
     this.#formAddPresenter.init(BLANK_POINT);
   }
 
-  #handleModeChange = () => {
-    if (this.#formAddPresenter) {
-      this.#formAddPresenter.destroy();
-    }
-    this.#pointPresenters.forEach((presenter) => presenter.resetView());
-  };
-
-  #handleViewAction = async (actionType, updateType, updatedPoint) => {
-    this.#uiBlocker.block();
-    switch (actionType) {
-      case UserAction.UPDATE_POINT:
-        this.#pointPresenters.get(updatedPoint.id).setSaving();
-        try {
-          await this.#pointsModel.updatePoint(updateType, updatedPoint);
-        } catch(err) {
-          this.#pointPresenters.get(updatedPoint.id).setAborting();
-        }
-        break;
-      case UserAction.ADD_POINT:
-        this.#formAddPresenter.setSaving();
-        try {
-          await this.#pointsModel.addPoint(updateType, updatedPoint);
-        } catch(err) {
-          this.#formAddPresenter.setAborting();
-        }
-        break;
-      case UserAction.DELETE_POINT:
-        this.#pointPresenters.get(updatedPoint.id).setDeleting();
-        try {
-          await this.#pointsModel.deletePoint(updateType, updatedPoint);
-        } catch(err) {
-          this.#pointPresenters.get(updatedPoint.id).setAborting();
-        }
-        break;
-    }
-
-    this.#uiBlocker.unblock();
-  };
-
-  #handleModelEvent = (updateType, data) => {
-    switch (updateType) {
-      case UpdateType.PATCH:
-        this.#pointPresenters.get(data.id).init(data);
-        break;
-      case UpdateType.MINOR:
-        this.#clearBoard();
-        this.#renderBoard();
-        break;
-      case UpdateType.MAJOR:
-        this.#clearBoard({resetSortType: true});
-        this.#renderBoard();
-        break;
-      case UpdateType.INIT:
-        this.#isLoading = false;
-        remove(this.#loadingComponent);
-        this.#renderBoard();
-        break;
-    }
-  };
-
-  #handleSortTypeChange = (sortType) => {
-    if (this.#currentSortType === sortType) {
-      return;
-    }
-
-    this.#currentSortType = sortType;
-    this.#clearBoard({resetRenderedPointCount: true});
-    this.#renderBoard();
-  };
-
   #renderSort() {
     this.#sortComponent = new SortView({
       currentSortType: this.#currentSortType,
@@ -232,4 +162,75 @@ export default class BoardPresenter {
     this.#renderPoints(this.points);
     this.#renderFormAdd();
   }
+
+  #handleModeChange = () => {
+    if (this.#formAddPresenter) {
+      this.#formAddPresenter.destroy();
+    }
+    this.#pointPresenters.forEach((presenter) => presenter.resetView());
+  };
+
+  #handleViewAction = async (actionType, updateType, updatedPoint) => {
+    this.#uiBlocker.block();
+    switch (actionType) {
+      case UserAction.UPDATE_POINT:
+        this.#pointPresenters.get(updatedPoint.id).setSaving();
+        try {
+          await this.#pointsModel.updatePoint(updateType, updatedPoint);
+        } catch(err) {
+          this.#pointPresenters.get(updatedPoint.id).setAborting();
+        }
+        break;
+      case UserAction.ADD_POINT:
+        this.#formAddPresenter.setSaving();
+        try {
+          await this.#pointsModel.addPoint(updateType, updatedPoint);
+        } catch(err) {
+          this.#formAddPresenter.setAborting();
+        }
+        break;
+      case UserAction.DELETE_POINT:
+        this.#pointPresenters.get(updatedPoint.id).setDeleting();
+        try {
+          await this.#pointsModel.deletePoint(updateType, updatedPoint);
+        } catch(err) {
+          this.#pointPresenters.get(updatedPoint.id).setAborting();
+        }
+        break;
+    }
+
+    this.#uiBlocker.unblock();
+  };
+
+  #handleModelEvent = (updateType, data) => {
+    switch (updateType) {
+      case UpdateType.PATCH:
+        this.#pointPresenters.get(data.id).init(data);
+        break;
+      case UpdateType.MINOR:
+        this.#clearBoard();
+        this.#renderBoard();
+        break;
+      case UpdateType.MAJOR:
+        this.#clearBoard({resetSortType: true});
+        this.#renderBoard();
+        break;
+      case UpdateType.INIT:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
+        this.#renderBoard();
+        break;
+    }
+  };
+
+  #handleSortTypeChange = (sortType) => {
+    if (this.#currentSortType === sortType) {
+      return;
+    }
+
+    this.#currentSortType = sortType;
+    this.#clearBoard({resetRenderedPointCount: true});
+    this.#renderBoard();
+  };
+
 }

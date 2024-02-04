@@ -189,6 +189,52 @@ export default class FormEditView extends AbstractStatefulView {
     this.#setDatepickers();
   }
 
+  #setDatepickers() {
+    const commonConfig = {
+      dateFormat: 'd/m/y H:i',
+      enableTime: true,
+      'time_24hr': true,
+    };
+
+    if (this._state.dateFrom) {
+      this.#datepickerFrom = flatpickr(
+        this.element.querySelector('[name="event-start-time"]'),
+        {
+          ...commonConfig,
+          defaultDate: this._state.dateFrom,
+          onClose: this.#dateFromCloseHandler,
+          maxDate: this._state.dateTo
+        });
+    } else {
+      this.#datepickerFrom = flatpickr(
+        this.element.querySelector('[name="event-start-time"]'),
+        {
+          ...commonConfig,
+          onClose: this.#dateFromCloseHandler,
+          maxDate: this._state.dateTo
+        });
+    }
+
+    if (this._state.dateTo) {
+      this.#datepickerTo = flatpickr(
+        this.element.querySelector('[name="event-end-time"]'),
+        {
+          ...commonConfig,
+          defaultDate: this._state.dateTo,
+          onClose: this.#dateToCloseHandler,
+          minDate: this._state.dateFrom
+        });
+    } else {
+      this.#datepickerTo = flatpickr(
+        this.element.querySelector('[name="event-end-time"]'),
+        {
+          ...commonConfig,
+          onClose: this.#dateToCloseHandler,
+          minDate: this._state.dateFrom
+        });
+    }
+  }
+
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     if (this.isDateFromValid && this.isDateToValid) {
@@ -261,52 +307,6 @@ export default class FormEditView extends AbstractStatefulView {
       this.isDateToValid = false;
     }
   };
-
-  #setDatepickers() {
-    const commonConfig = {
-      dateFormat: 'd/m/y H:i',
-      enableTime: true,
-      'time_24hr': true,
-    };
-
-    if (this._state.dateFrom) {
-      this.#datepickerFrom = flatpickr(
-        this.element.querySelector('[name="event-start-time"]'),
-        {
-          ...commonConfig,
-          defaultDate: this._state.dateFrom,
-          onClose: this.#dateFromCloseHandler,
-          maxDate: this._state.dateTo
-        });
-    } else {
-      this.#datepickerFrom = flatpickr(
-        this.element.querySelector('[name="event-start-time"]'),
-        {
-          ...commonConfig,
-          onClose: this.#dateFromCloseHandler,
-          maxDate: this._state.dateTo
-        });
-    }
-
-    if (this._state.dateTo) {
-      this.#datepickerTo = flatpickr(
-        this.element.querySelector('[name="event-end-time"]'),
-        {
-          ...commonConfig,
-          defaultDate: this._state.dateTo,
-          onClose: this.#dateToCloseHandler,
-          minDate: this._state.dateFrom
-        });
-    } else {
-      this.#datepickerTo = flatpickr(
-        this.element.querySelector('[name="event-end-time"]'),
-        {
-          ...commonConfig,
-          onClose: this.#dateToCloseHandler,
-          minDate: this._state.dateFrom
-        });
-    }
-  }
 
 
   static parsePointToState(point) {
