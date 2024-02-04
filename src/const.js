@@ -1,5 +1,6 @@
 const TIME_FORMAT = 'HH:mm';
 const SHORT_DATE_FORMAT = 'MMM DD';
+const DURATION_FORMAT = 'DD[D] HH[H] mm[M]';
 
 const TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 const SORTS = ['Day', 'Event', 'Time', 'Price', 'Offers'];
@@ -46,6 +47,7 @@ const UpdateType = {
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
   INIT: 'INIT',
+  ERROR: 'ERROR',
 };
 
 const NoPointsTextType = {
@@ -72,6 +74,7 @@ export {
   SORTS,
   TIME_FORMAT,
   SHORT_DATE_FORMAT,
+  DURATION_FORMAT,
   BLANK_POINT,
   AUTORIZATION,
   END_POINT,

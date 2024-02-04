@@ -33,11 +33,10 @@ export default class FormAddPresenter {
       allDestinations: this.#allDestinations,
       checkedOffers: [],
       onFormSubmit: this.#handleFormSubmit,
-      onDeleteClick: this.#handleDeleteClick,
+      onDeleteClick: this.#handleCancelClick,
       onEditClick: this.#hadleEditCloseClick,
       isNewPoint: true,
     });
-
     render(this.#formEditComponent, this.#pointListContainer, RenderPosition.AFTERBEGIN);
 
     document.addEventListener('keydown', this.#escKeyDownHandler);
@@ -48,7 +47,9 @@ export default class FormAddPresenter {
       return;
     }
 
-    this.#handleDestroy();
+    if (this.#handleDestroy) {
+      this.#handleDestroy();
+    }
 
     remove(this.#formEditComponent);
     this.#formEditComponent = null;
@@ -83,7 +84,7 @@ export default class FormAddPresenter {
     );
   };
 
-  #handleDeleteClick = () => {
+  #handleCancelClick = () => {
     this.destroy();
   };
 

@@ -1,5 +1,6 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import { humanizeShortDate, humanizeTime } from '../utils/points.js';
+import { DURATION_FORMAT } from '../const.js';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 
@@ -18,9 +19,18 @@ const createPointTemplate = (point, destination, offers) => {
   const { dateFrom, dateTo, type, basePrice, isFavorite } = point;
   const { name } = destination;
   const offerTemplate = createOffersTemplate(offers);
-  const durationOfStay = dayjs.duration(dayjs(dateTo).diff(dayjs(dateFrom)));
-  const durationOfStayFormat = `${durationOfStay.days() > 0 ? `${durationOfStay.days()}D ` : ''}${durationOfStay.hours() > 0 ? `${durationOfStay.hours()}H ` : ''}${durationOfStay.minutes()
-  }M`;
+
+  const durationOfStayFormat = (eventA, eventB) => {
+    let durationOfStay = dayjs.duration(dayjs(eventA).diff(dayjs(eventB)));
+    const daysCount = Math.floor(durationOfStay.asDays());
+    if (daysCount > 30) {
+      const format = DURATION_FORMAT.replace('DD[D] ', '');
+      durationOfStay = durationOfStay.format(format);
+      return `${daysCount}D ${durationOfStay}`;
+    }
+    durationOfStay = durationOfStay.format(DURATION_FORMAT);
+    return durationOfStay.replace('00D 00H ', '').replace('00D ', '');
+  };
 
   const favoriteClassName = isFavorite
     ? 'event__favorite-btn--active'
@@ -39,7 +49,7 @@ const createPointTemplate = (point, destination, offers) => {
         &mdash;
         <time class="event__end-time" datetime="${humanizeTime(dateTo)}">${humanizeTime(dateTo)}</time>
       </p>
-      <p class="event__duration">${durationOfStayFormat}</p>
+      <p class="event__duration">${durationOfStayFormat(dateTo, dateFrom)}</p>
     </div>
     <p class="event__price">
       &euro;&nbsp;<span class="event__price-value">${basePrice}</span>

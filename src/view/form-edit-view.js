@@ -8,12 +8,12 @@ import 'flatpickr/dist/flatpickr.min.css';
 
 const createCityOptionsTemplate = (allDestinations) => allDestinations.map(({name}) => `<option value="${name}"></option>`).join('');
 
-const createTypeTemplate = (currentType, isDisabled) => TYPES.map((type, id) => {
+const createTypeTemplate = (currentType, isDisabled) => TYPES.map((type) => {
   const isChecked = type === currentType;
   return `
     <div class="event__type-item">
-      <input id="event-type-${id}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${isChecked ? 'checked' : ''}${isDisabled ? 'disabled' : ''}>
-      <label class="event__type-label  event__type-label--${type}" for="event-type-${id}">${capitalizeFirstLetter(type)}</label>
+      <input id="event-type-${type}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${isChecked ? 'checked' : ''}${isDisabled ? 'disabled' : ''}>
+      <label class="event__type-label  event__type-label--${type}" for="event-type-${type}">${capitalizeFirstLetter(type)}</label>
     </div>
   `;
 }).join('');
@@ -53,15 +53,16 @@ const createFormEditView = (point, allDestinations, offers, checkedOffers, isNew
     ? '<button class="event__reset-btn" type="reset">Cancel</button>'
     : `<button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>${isDeleting ? 'Deleting...' : 'Delete'}</button>`;
 
-  const destinationSection = name ? `
+  const destinationPictureSection = pictures.length !== 0 ? `<div class="event__photos-container">
+  <div class="event__photos-tape">
+  ${pictures.map(({ description: descriptionPicture, src }) => `<img class="event__photo" src="${src}" alt="${descriptionPicture}">`).join('')}
+  </div></div>` : '';
+
+  const destinationSection = name && description ? `
     <section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
       <p class="event__destination-description">${description}</p>
-      <div class="event__photos-container">
-        <div class="event__photos-tape">
-        ${pictures.map(({ description: descriptionPicture, src }) => `<img class="event__photo" src="${src}" alt="${descriptionPicture}">`).join('')}
-        </div>
-      </div>
+        ${destinationPictureSection}
     </section>` : '';
 
   return (`<li class="trip-events__item">
@@ -152,7 +153,8 @@ export default class FormEditView extends AbstractStatefulView {
   }
 
   get template() {
-    return createFormEditView(this._state, this.#allDestinations, this.#allOffers, this.#checkedOffers, this.isNewPoint);
+    const { isSaving, isDeleting, isDisabled } = this._state;
+    return createFormEditView(this._state, this.#allDestinations, this.#allOffers, this.#checkedOffers, this.isNewPoint, isSaving, isDeleting, isDisabled);
   }
 
   reset(point) {

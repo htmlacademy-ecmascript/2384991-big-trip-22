@@ -14,6 +14,7 @@ export default class BoardPresenter {
   #container = null;
   #pointsModel = null;
   #filterModel = null;
+  #onNewPointDestroy = null;
 
   #sortComponent = null;
   #noPointsComponent = null;
@@ -35,15 +36,7 @@ export default class BoardPresenter {
     this.#container = container;
     this.#pointsModel = pointsModel;
     this.#filterModel = filterModel;
-
-    this.#formAddPresenter = new FormAddPresenter({
-      pointListContainer: this.#editListComponent.element,
-      onDataChange: this.#handleViewAction,
-      onDestroy: onNewPointDestroy,
-      allDestinations: this.#pointsModel.destinations,
-      allOffers: this.#pointsModel.offers,
-      pointsModel: this.#pointsModel
-    });
+    this.#onNewPointDestroy = onNewPointDestroy;
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
@@ -77,7 +70,9 @@ export default class BoardPresenter {
   }
 
   #handleModeChange = () => {
-    this.#formAddPresenter.destroy();
+    if (this.#formAddPresenter) {
+      this.#formAddPresenter.destroy();
+    }
     this.#pointPresenters.forEach((presenter) => presenter.resetView());
   };
 
@@ -168,6 +163,19 @@ export default class BoardPresenter {
     this.#pointPresenters.set(point.id, pointPresenter);
   }
 
+  #renderFormAdd() {
+    this.#formAddPresenter = new FormAddPresenter({
+      pointListContainer: this.#editListComponent.element,
+      onDataChange: this.#handleViewAction,
+      onModeChange: this.#handleModeChange,
+      onDestroy: this.#onNewPointDestroy,
+      allDestinations: this.#pointsModel.destinations,
+      allOffers: this.#pointsModel.offers,
+      pointsModel: this.#pointsModel,
+      onNewPointDestroy: this.#onNewPointDestroy,
+    });
+  }
+
   #renderPoints(points) {
     points.forEach((point) => {
       this.#renderPoint(point);
@@ -222,5 +230,6 @@ export default class BoardPresenter {
 
     this.#renderSort();
     this.#renderPoints(this.points);
+    this.#renderFormAdd();
   }
 }
