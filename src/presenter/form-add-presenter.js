@@ -7,18 +7,20 @@ export default class FormAddPresenter {
   #pointListContainer = null;
   #handleDataChange = null;
   #handleDestroy = null;
+  #handleCancel = null;
   #allDestinations = null;
   #allOffers = null;
   #formEditComponent = null;
   #pointsModel = null;
 
-  constructor({ pointListContainer, onDataChange, onDestroy, allDestinations, allOffers, pointsModel }) {
+  constructor({ pointListContainer, onDataChange, onDestroy, onCancel, allDestinations, allOffers, pointsModel }) {
     this.#pointListContainer = pointListContainer;
     this.#handleDataChange = onDataChange;
     this.#handleDestroy = onDestroy;
     this.#allDestinations = allDestinations;
     this.#allOffers = allOffers;
     this.#pointsModel = pointsModel;
+    this.#handleCancel = onCancel;
   }
 
   init(point = BLANK_POINT) {
@@ -34,7 +36,7 @@ export default class FormAddPresenter {
       checkedOffers: [],
       onFormSubmit: this.#handleFormSubmit,
       onDeleteClick: this.#handleCancelClick,
-      onEditClick: this.#hadleEditCloseClick,
+      onEditClick: this.#handleEditCloseClick,
       isNewPoint: true,
     });
     render(this.#formEditComponent, this.#pointListContainer, RenderPosition.AFTERBEGIN);
@@ -86,16 +88,19 @@ export default class FormAddPresenter {
 
   #handleCancelClick = () => {
     this.destroy();
+    this.#handleCancel?.();
   };
 
-  #hadleEditCloseClick = () => {
+  #handleEditCloseClick = () => {
     this.destroy();
+    this.#handleCancel?.();
   };
 
   #handleEscKeyClick = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       this.destroy();
+      this.#handleCancel?.();
     }
   };
 }

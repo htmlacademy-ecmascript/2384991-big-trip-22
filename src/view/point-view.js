@@ -1,6 +1,5 @@
-import AbstractView from '../framework/view/abstract-view.js';
-import { humanizeShortDate, humanizeTime } from '../utils/points.js';
-import { DURATION_FORMAT } from '../const.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
+import { humanizeShortDate, humanizeTime, durationOfStayFormat } from '../utils/points.js';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 
@@ -15,22 +14,10 @@ const createOffersTemplate = (offers) => offers.length > 0
   ).join('')
   : '';
 
-const createPointTemplate = (point, destination, offers) => {
+const createPointTemplate = (point, destination, offers, isDisabled) => {
   const { dateFrom, dateTo, type, basePrice, isFavorite } = point;
   const { name } = destination;
   const offerTemplate = createOffersTemplate(offers);
-
-  const durationOfStayFormat = (eventA, eventB) => {
-    let durationOfStay = dayjs.duration(dayjs(eventA).diff(dayjs(eventB)));
-    const daysCount = Math.floor(durationOfStay.asDays());
-    if (daysCount > 30) {
-      const format = DURATION_FORMAT.replace('DD[D] ', '');
-      durationOfStay = durationOfStay.format(format);
-      return `${daysCount}D ${durationOfStay}`;
-    }
-    durationOfStay = durationOfStay.format(DURATION_FORMAT);
-    return durationOfStay.replace('00D 00H ', '').replace('00D ', '');
-  };
 
   const favoriteClassName = isFavorite
     ? 'event__favorite-btn--active'
@@ -58,7 +45,7 @@ const createPointTemplate = (point, destination, offers) => {
     <ul class="event__selected-offers">
     ${offerTemplate}
     </ul>
-    <button class="event__favorite-btn ${favoriteClassName}" type="button">
+    <button class="event__favorite-btn ${favoriteClassName}" type="button" ${isDisabled ? 'disabled' : ''}>
       <span class="visually-hidden">Add to favorite</span>
       <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
         <path d="M14 21l-8.22899 4.3262 1.57159-9.1631L.685209 9.67376 9.8855 8.33688 14 0l4.1145 8.33688 9.2003 1.33688-6.6574 6.48934 1.5716 9.1631L14 21z"/>
@@ -71,7 +58,7 @@ const createPointTemplate = (point, destination, offers) => {
 </li>`);
 };
 
-export default class PointView extends AbstractView {
+export default class PointView extends AbstractStatefulView {
   #point = null;
   #destination = null;
   #offers = null;
@@ -80,18 +67,23 @@ export default class PointView extends AbstractView {
 
   constructor({point, destination, offers, onEditClick, onFavoriteClick}) {
     super();
-    this.#point = point;
+    this._setState(PointView.parsePointToState(point));
     this.#destination = destination;
     this.#offers = offers;
     this.#handleEditClick = onEditClick;
     this.#handleFavoriteClick = onFavoriteClick;
 
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
-    this.element.querySelector('.event__favorite-btn').addEventListener('click', this.#favoriteClickHandler);
+    this._restoreHandlers();
   }
 
   get template() {
-    return createPointTemplate(this.#point, this.#destination, this.#offers);
+    const { isDisabled } = this._state;
+    return createPointTemplate(this._state, this.#destination, this.#offers, isDisabled);
+  }
+
+  _restoreHandlers() {
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
+    this.element.querySelector('.event__favorite-btn').addEventListener('click', this.#favoriteClickHandler);
   }
 
   #editClickHandler = (evt) => {
@@ -103,4 +95,10 @@ export default class PointView extends AbstractView {
     evt.preventDefault();
     this.#handleFavoriteClick();
   };
+
+  static parsePointToState(point) {
+    return {...point,
+      isDisabled: false,
+    };
+  }
 }

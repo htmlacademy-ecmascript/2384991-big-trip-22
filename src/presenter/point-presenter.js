@@ -96,9 +96,23 @@ export default class PointPresenter {
     }
   }
 
-  setAborting() {
+  setFavoring() {
     if (this.#mode === ModeType.VIEWING) {
-      this.#pointComponent.shake();
+      this.#pointComponent.updateElement({
+        isDisabled: true,
+      });
+    }
+  }
+
+  setAborting() {
+    const resetPointState = () => {
+      this.#pointComponent.updateElement({
+        isDisabled: false,
+      });
+    };
+
+    if (this.#mode === ModeType.VIEWING) {
+      this.#pointComponent.shake(resetPointState);
       return;
     }
 
@@ -109,7 +123,6 @@ export default class PointPresenter {
         isDeleting: false,
       });
     };
-
     this.#formEditComponent.shake(resetFormState);
   }
 
@@ -136,6 +149,7 @@ export default class PointPresenter {
   };
 
   #handleFavoriteClick = () => {
+    this.setFavoring();
     this.#handleDataChange(
       UserAction.UPDATE_POINT,
       UpdateType.PATCH,

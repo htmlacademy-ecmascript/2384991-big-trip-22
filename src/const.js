@@ -1,7 +1,3 @@
-const TIME_FORMAT = 'HH:mm';
-const SHORT_DATE_FORMAT = 'MMM DD';
-const DURATION_FORMAT = 'DD[D] HH[H] mm[M]';
-
 const TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 const SORTS = ['Day', 'Event', 'Time', 'Price', 'Offers'];
 
@@ -15,7 +11,7 @@ const BLANK_POINT = {
   'isFavorite': false
 };
 
-const AUTORIZATION = 'Basic lk91s51cz18';
+const AUTORIZATION = 'Basic lk91s51cz181';
 const END_POINT = 'https://22.objects.htmlacademy.pro/big-trip';
 
 const FilterType = {
@@ -55,6 +51,7 @@ const NoPointsTextType = {
   [FilterType.FUTURE]: 'There are no future events now',
   [FilterType.PRESENT]: 'There are no present events now',
   [FilterType.PAST]: 'There are no past events now',
+  ERROR: 'Failed to load latest route information',
 };
 
 const Method = {
@@ -69,12 +66,15 @@ const TimeLimit = {
   UPPER_LIMIT: 1000,
 };
 
+const DateType = {
+  TIME_FORMAT: 'HH:mm',
+  SHORT_DATE_FORMAT: 'MMM DD',
+  DURATION_FORMAT: 'DD[D] HH[H] mm[M]',
+};
+
 export {
   TYPES,
   SORTS,
-  TIME_FORMAT,
-  SHORT_DATE_FORMAT,
-  DURATION_FORMAT,
   BLANK_POINT,
   AUTORIZATION,
   END_POINT,
@@ -86,4 +86,5 @@ export {
   UpdateType,
   Method,
   TimeLimit,
+  DateType,
 };

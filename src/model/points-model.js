@@ -46,12 +46,13 @@ export default class PointsModel extends Observable {
       this.#points = points.map(this.#adaptToClient);
       this.#offers = await this.#pointsApiService.offers;
       this.#destinations = await this.#pointsApiService.destinations;
+      this._notify(UpdateType.INIT);
     } catch(err) {
       this.#points = [];
       this.#offers = [];
       this.#destinations = [];
+      this._notify(UpdateType.ERROR);
     }
-    this._notify(UpdateType.INIT);
   }
 
   async updatePoint(updateType, updatedPoint) {
@@ -108,8 +109,8 @@ export default class PointsModel extends Observable {
   #adaptToClient(point) {
     const adaptedPoint = {...point,
       basePrice: point['base_price'],
-      dateFrom: point['date_from'] !== null ? new Date(point['date_from']) : point['date_from'],
-      dateTo: point['date_to'] !== null ? new Date(point['date_to']) : point['date_to'],
+      dateFrom: point['date_from'],
+      dateTo: point['date_to'],
       isFavorite: point['is_favorite'],
     };
 

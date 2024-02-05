@@ -13,7 +13,8 @@ const tripEvents = document.querySelector('.trip-events');
 const tripMain = siteHeader.querySelector('.trip-main');
 const tripFilters = siteHeader.querySelector('.trip-controls__filters');
 
-const pointsModel = new PointsModel({pointsApiService: new PointsApiService(END_POINT, AUTORIZATION)});
+const pointsApiService = new PointsApiService(END_POINT, AUTORIZATION);
+const pointsModel = new PointsModel({pointsApiService});
 const filterModel = new FilterModel();
 
 const boardPresenter = new BoardPresenter({container: tripEvents, pointsModel, filterModel, onNewPointDestroy: handleAddEventFormClose});

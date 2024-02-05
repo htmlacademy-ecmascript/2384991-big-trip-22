@@ -195,44 +195,26 @@ export default class FormEditView extends AbstractStatefulView {
       enableTime: true,
       'time_24hr': true,
     };
+    const eventStartTime = this.element.querySelector('[name="event-start-time"]');
+    const eventEndTime = this.element.querySelector('[name="event-end-time"]');
 
-    if (this._state.dateFrom) {
-      this.#datepickerFrom = flatpickr(
-        this.element.querySelector('[name="event-start-time"]'),
-        {
-          ...commonConfig,
-          defaultDate: this._state.dateFrom,
-          onClose: this.#dateFromCloseHandler,
-          maxDate: this._state.dateTo
-        });
-    } else {
-      this.#datepickerFrom = flatpickr(
-        this.element.querySelector('[name="event-start-time"]'),
-        {
-          ...commonConfig,
-          onClose: this.#dateFromCloseHandler,
-          maxDate: this._state.dateTo
-        });
-    }
+    this.#datepickerFrom = flatpickr(
+      eventStartTime,
+      {
+        ...commonConfig,
+        defaultDate: this._state.dateFrom,
+        onClose: this.#dateFromCloseHandler,
+        maxDate: this._state.dateTo
+      });
 
-    if (this._state.dateTo) {
-      this.#datepickerTo = flatpickr(
-        this.element.querySelector('[name="event-end-time"]'),
-        {
-          ...commonConfig,
-          defaultDate: this._state.dateTo,
-          onClose: this.#dateToCloseHandler,
-          minDate: this._state.dateFrom
-        });
-    } else {
-      this.#datepickerTo = flatpickr(
-        this.element.querySelector('[name="event-end-time"]'),
-        {
-          ...commonConfig,
-          onClose: this.#dateToCloseHandler,
-          minDate: this._state.dateFrom
-        });
-    }
+    this.#datepickerTo = flatpickr(
+      eventEndTime,
+      {
+        ...commonConfig,
+        defaultDate: this._state.dateTo,
+        onClose: this.#dateToCloseHandler,
+        minDate: this._state.dateFrom
+      });
   }
 
   #formSubmitHandler = (evt) => {
@@ -307,7 +289,6 @@ export default class FormEditView extends AbstractStatefulView {
       this.isDateToValid = false;
     }
   };
-
 
   static parsePointToState(point) {
     return {...point,
