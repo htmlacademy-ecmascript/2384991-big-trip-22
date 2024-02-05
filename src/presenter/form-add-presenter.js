@@ -1,5 +1,5 @@
 import { render, RenderPosition, remove } from '../framework/render.js';
-import { newPointId, isEscapeKey } from '../utils/common.js';
+import { isEscapeKey } from '../utils/common.js';
 import { UserAction, UpdateType, BLANK_POINT } from '../const.js';
 import FormEditView from '../view/form-edit-view.js';
 
@@ -7,18 +7,20 @@ export default class FormAddPresenter {
   #pointListContainer = null;
   #handleDataChange = null;
   #handleDestroy = null;
+  #handleCancel = null;
   #allDestinations = null;
   #allOffers = null;
   #formEditComponent = null;
   #pointsModel = null;
 
-  constructor({ pointListContainer, onDataChange, onDestroy, allDestinations, allOffers, pointsModel }) {
+  constructor({ pointListContainer, onDataChange, onDestroy, onCancel, allDestinations, allOffers, pointsModel }) {
     this.#pointListContainer = pointListContainer;
     this.#handleDataChange = onDataChange;
     this.#handleDestroy = onDestroy;
     this.#allDestinations = allDestinations;
     this.#allOffers = allOffers;
     this.#pointsModel = pointsModel;
+    this.#handleCancel = onCancel;
   }
 
   init(point = BLANK_POINT) {
@@ -30,17 +32,16 @@ export default class FormAddPresenter {
       point: point,
       pointsModel: this.#pointsModel,
       allOffers: this.#allOffers || [],
-      allDestinations: this.#allDestinations || [],
+      allDestinations: this.#allDestinations,
       checkedOffers: [],
       onFormSubmit: this.#handleFormSubmit,
-      onDeleteClick: this.#handleDeleteClick,
-      onEditClick: this.#hadleEditCloseClick,
+      onDeleteClick: this.#handleCancelClick,
+      onEditClick: this.#handleEditCloseClick,
       isNewPoint: true,
     });
-
     render(this.#formEditComponent, this.#pointListContainer, RenderPosition.AFTERBEGIN);
 
-    document.addEventListener('keydown', this.#escKeyDownHandler);
+    document.addEventListener('keydown', this.#handleEscKeyClick);
   }
 
   destroy() {
@@ -48,37 +49,58 @@ export default class FormAddPresenter {
       return;
     }
 
-    this.#handleDestroy();
+    if (this.#handleDestroy) {
+      this.#handleDestroy();
+    }
 
     remove(this.#formEditComponent);
     this.#formEditComponent = null;
 
-    document.removeEventListener('keydown', this.#escKeyDownHandler);
+    document.removeEventListener('keydown', this.#handleEscKeyClick);
+  }
+
+  setSaving() {
+    this.#formEditComponent.updateElement({
+      isDisabled: true,
+      isSaving: true,
+    });
+  }
+
+  setAborting() {
+    const resetFormState = () => {
+      this.#formEditComponent.updateElement({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+
+    this.#formEditComponent.shake(resetFormState);
   }
 
   #handleFormSubmit = (point) => {
-    const newId = newPointId();
-
     this.#handleDataChange(
       UserAction.ADD_POINT,
       UpdateType.MINOR,
-      {...BLANK_POINT, id: newId, ...point},
+      point,
     );
-    this.destroy();
   };
 
-  #handleDeleteClick = () => {
+  #handleCancelClick = () => {
     this.destroy();
+    this.#handleCancel?.();
   };
 
-  #hadleEditCloseClick = () => {
+  #handleEditCloseClick = () => {
     this.destroy();
+    this.#handleCancel?.();
   };
 
-  #escKeyDownHandler = (evt) => {
+  #handleEscKeyClick = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       this.destroy();
+      this.#handleCancel?.();
     }
   };
 }
