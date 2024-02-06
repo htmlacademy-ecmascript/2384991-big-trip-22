@@ -70,6 +70,7 @@ const DateType = {
   TIME_FORMAT: 'HH:mm',
   SHORT_DATE_FORMAT: 'MMM DD',
   DURATION_FORMAT: 'DD[D] HH[H] mm[M]',
+  HEADER_DATE_FORMAT: 'D MMM',
 };
 
 export {

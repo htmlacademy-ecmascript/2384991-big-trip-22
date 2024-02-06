@@ -102,7 +102,7 @@ const createFormEditView = (point, allDestinations, offers, checkedOffers, isNew
       <span class="visually-hidden">Price</span>
       &euro;
     </label>
-    <input class="event__input  event__input--price" id="event-price-${id}" type="number" min="1" name="event-price" value="${he.encode(String(basePrice))}" required ${isDisabled ? 'disabled' : ''}>
+    <input class="event__input  event__input--price" id="event-price-${id}" type="number" min="1" max="100000" name="event-price" value="${he.encode(String(basePrice))}" required ${isDisabled ? 'disabled' : ''}>
   </div>
   <button class="event__save-btn  btn  btn--blue" type="submit" ${isDisabled ? 'disabled' : ''}>${isSaving ? 'Saving...' : 'Save'}</button>
   ${deleteButtonTemplate}

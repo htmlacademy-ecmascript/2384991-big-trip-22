@@ -1,5 +1,6 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { humanizeShortDate, humanizeTime, durationOfStayFormat } from '../utils/points.js';
+import { DateType } from '../const.js';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 
@@ -25,7 +26,7 @@ const createPointTemplate = (point, destination, offers, isDisabled) => {
 
   return (`<li class="trip-events__item">
   <div class="event">
-    <time class="event__date" datetime="${humanizeShortDate(dateFrom)}">${humanizeShortDate(dateFrom)}</time>
+    <time class="event__date" datetime="${humanizeShortDate(dateFrom, DateType.SHORT_DATE_FORMAT)}">${humanizeShortDate(dateFrom, DateType.SHORT_DATE_FORMAT)}</time>
     <div class="event__type">
       <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event ${type} icon">
     </div>
