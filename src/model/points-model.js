@@ -25,6 +25,14 @@ export default class PointsModel extends Observable {
     return this.#destinations;
   }
 
+  get totalCost() {
+    return this.#points.reduce((totalCost, point) => {
+      const offersForPoint = this.getOfferById(point.type, point.offers);
+      const offersCost = offersForPoint.reduce((totalOffersCost, offer) => totalOffersCost + (offer ? offer.price : 0), 0);
+      return totalCost + point.basePrice + offersCost;
+    }, 0);
+  }
+
   getOfferByType(type) {
     return this.#offers.find((offers) => offers.type === type);
   }

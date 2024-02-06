@@ -4,7 +4,7 @@ import duration from 'dayjs/plugin/duration';
 
 dayjs.extend(duration);
 
-const humanizeShortDate = (date) => dayjs(date).format(DateType.SHORT_DATE_FORMAT).toUpperCase();
+const humanizeShortDate = (date, dateTypeFormat) => dayjs(date).format(dateTypeFormat).toUpperCase();
 const humanizeTime = (date) => dayjs(date).format(DateType.TIME_FORMAT);
 
 const isPointFuture = (point) => dayjs().isBefore(point.dateFrom);

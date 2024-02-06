@@ -89,7 +89,6 @@ export default class BoardPresenter {
     }
   }
 
-
   #renderSort() {
     this.#sortComponent = new SortView({
       currentSortType: this.#currentSortType,
