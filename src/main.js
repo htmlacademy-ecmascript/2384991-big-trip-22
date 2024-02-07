@@ -6,7 +6,7 @@ import PointsModel from './model/points-model.js';
 import FilterModel from './model/filter-model.js';
 import PointsApiService from './api-service/points-api-service.js';
 import { render, RenderPosition } from './framework/render.js';
-import { AUTORIZATION, END_POINT } from './const.js';
+import { AUTORIZATION, END_POINT, UpdateType } from './const.js';
 
 const siteHeader = document.querySelector('.page-header');
 const tripEvents = document.querySelector('.trip-events');
@@ -31,6 +31,15 @@ function handleAddEventButtonClick() {
   boardPresenter.createPoint();
   addEventButtonComponent.element.disabled = true;
 }
+
+pointsModel.addObserver((updateType) => {
+  if (updateType === UpdateType.INIT) {
+    addEventButtonComponent.element.disabled = false;
+  } else if (updateType === UpdateType.ERROR) {
+    addEventButtonComponent.element.disabled = true;
+  }
+});
+
 
 boardPresenter.init();
 filterPresenter.init();
