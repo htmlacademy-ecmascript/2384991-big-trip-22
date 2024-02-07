@@ -39,7 +39,7 @@ export default class HeaderInfoPresenter {
       return '';
     }
 
-    const sortedPoints = points.slice().sort((a, b) => new Date(a.dateFrom) - new Date(b.dateFrom));
+    const sortedPoints = points.slice().sort((firstPoint, secondPoint) => new Date(firstPoint.dateFrom) - new Date(secondPoint.dateFrom));
 
     const destinations = sortedPoints.map((point) => {
       const destination = this.#pointsModel.getDestinationById(point.destination);
@@ -73,7 +73,7 @@ export default class HeaderInfoPresenter {
     }
 
     const prevHeaderInfoComponent = this.#headerInfoComponent;
-    points.sort((a, b) => new Date(a.dateFrom) - new Date(b.dateFrom));
+    points.sort((firstPoint, secondPoint) => new Date(firstPoint.dateFrom) - new Date(secondPoint.dateFrom));
     const dateFrom = this.dateFrom;
     const dateTo = this.dateTo;
     const destinationName = this.destinationName;
