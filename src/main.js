@@ -1,4 +1,4 @@
-import AddEventButton from './view/add-event-button-view.js';
+import AddEventButtonView from './view/add-event-button-view.js';
 import BoardPresenter from './presenter/board-presenter.js';
 import FilterPresenter from './presenter/filter-presenter.js';
 import HeaderInfoPresenter from './presenter/header-info-presenter.js';
@@ -21,7 +21,7 @@ const boardPresenter = new BoardPresenter({container: tripEvents, pointsModel, f
 const filterPresenter = new FilterPresenter({filterContainer: tripFilters, filterModel, pointsModel});
 new HeaderInfoPresenter({headerContainer: tripMain, pointsModel});
 
-const addEventButtonComponent = new AddEventButton({onAddEventClick: handleAddEventButtonClick});
+const addEventButtonComponent = new AddEventButtonView({onAddEventClick: handleAddEventButtonClick});
 
 function handleAddEventFormClose() {
   addEventButtonComponent.element.disabled = false;
@@ -39,7 +39,6 @@ pointsModel.addObserver((updateType) => {
     addEventButtonComponent.element.disabled = true;
   }
 });
-
 
 boardPresenter.init();
 filterPresenter.init();
